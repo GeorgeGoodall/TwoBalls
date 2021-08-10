@@ -26,6 +26,7 @@ public class TwoHeads : MonoBehaviour
         head2Start = head2.position();
         rope = gameObject.transform.Find("Rope").GetComponent<RopeHeads>();
         GameEvents.current.onDeath += reset;
+        assignControllerEvents();
     }
 
     void assignControllerEvents(){
@@ -74,12 +75,12 @@ public class TwoHeads : MonoBehaviour
     bool calledStart = false;
 
     void movement(){
-        if(Input.GetKeyDown(KeyCode.Q)){
-            GameEvents.current.action1Press();
-        }
-        if(Input.GetKeyDown(KeyCode.E)){
-           GameEvents.current.action2Press();
-        }
+        // if(Input.GetKeyDown(KeyCode.Q)){
+        //     GameEvents.current.action1Press();
+        // }
+        // if(Input.GetKeyDown(KeyCode.E)){
+        //    GameEvents.current.action2Press();
+        // }
 
         if(!calledStart && !rightHeadAtStart && !LeftHeadAtStart){
             calledStart = true;

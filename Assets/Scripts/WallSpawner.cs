@@ -9,7 +9,7 @@ public class WallSpawner : MonoBehaviour
 
     public List<GameObject> walls;
 
-    int columnCount = 4;
+    int columnCount = 2;
 
     int currentPosition = 0;
 
