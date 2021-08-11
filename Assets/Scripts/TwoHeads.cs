@@ -5,12 +5,15 @@ using UnityEngine;
 public class TwoHeads : MonoBehaviour
 {
 
-    public float ropeLength {get; private set;} = 3f;
+    public static TwoHeads current;
+
+    public float ropeLength {get; private set;} = 5f;
 
     private Head head1;
     private Head head2;
 
-    private float movementForce = 6f;
+    private float movementForceRadial = 1f;
+    private float movementForceVertical = 1f;
 
     private Vector2 head1Start;
     private Vector2 head2Start;
@@ -20,6 +23,7 @@ public class TwoHeads : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        
         head1 = gameObject.transform.Find("head1").GetComponent<Head>();
         head2 = gameObject.transform.Find("head2").GetComponent<Head>();
         head1Start = head1.position();
@@ -27,6 +31,10 @@ public class TwoHeads : MonoBehaviour
         rope = gameObject.transform.Find("Rope").GetComponent<RopeHeads>();
         GameEvents.current.onDeath += reset;
         assignControllerEvents();
+    }
+
+    private void Awake() {
+        current = this;
     }
 
     void assignControllerEvents(){
@@ -37,21 +45,57 @@ public class TwoHeads : MonoBehaviour
         GameEvents.current.onAction2Press += actionTwoPress;
     }
 
+    public void applyVerticalForceToLeftHead(float force){
+        head1.addForce(Vector2.up * force * movementForceVertical, ForceMode2D.Impulse);
+    }
+
+    public void applyVerticalForceToRightHead(float force){
+        head2.addForce(Vector2.up * force * movementForceVertical, ForceMode2D.Impulse);
+    }
+
+    public void applyHorizontalForceToLeftHead(float force){
+        head1.addForce(Vector2.right * force * movementForceVertical, ForceMode2D.Impulse);
+    }
+
+    public void applyHorizontalForceToRightHead(float force){
+        head2.addForce(Vector2.right * force * movementForceVertical, ForceMode2D.Impulse);
+    }
+
+    public void applyRadialForceToLeftHead(float force){
+        LeftHeadAtStart = false;
+        if(force > 0){
+            head1.addForce(getAnticlockwiseVector(head1.position(),head2.position()) * movementForceRadial * force,ForceMode2D.Impulse);
+        }else{
+            head1.addForce(getClockwiseVector(head1.position(),head2.position()) * movementForceRadial * force * -1,ForceMode2D.Impulse);
+        }
+    }
+
+    public void applyRadialForceToRightHead(float force){
+        rightHeadAtStart = false;
+        if(force > 0){
+            head2.addForce(getAnticlockwiseVector(head2.position(),head1.position()) * movementForceRadial * force,ForceMode2D.Impulse);
+        }else{
+            head2.addForce(getClockwiseVector(head2.position(),head1.position()) * movementForceRadial * force * -1,ForceMode2D.Impulse);
+        }
+    }
+
     public void leftPress(){
+        LeftHeadAtStart = false;
         if(head2.locked){
-            head1.addForce(getClockwiseVector(head1.position(),head2.position()) * movementForce,ForceMode2D.Impulse);
+            head1.addForce(getClockwiseVector(head1.position(),head2.position()) * movementForceRadial,ForceMode2D.Impulse);
         }
         if(head1.locked){
-            head2.addForce(getClockwiseVector(head2.position(),head1.position()) * movementForce,ForceMode2D.Impulse);
+            head2.addForce(getClockwiseVector(head2.position(),head1.position()) * movementForceRadial,ForceMode2D.Impulse);
         }
     }
 
     public void rightPress(){
+        rightHeadAtStart = false;
         if(head2.locked){
-            head1.addForce(getAnticlockwiseVector(head1.position(),head2.position()) * movementForce,ForceMode2D.Impulse);
+            head1.addForce(getAnticlockwiseVector(head1.position(),head2.position()) * movementForceRadial,ForceMode2D.Impulse);
         }
         if(head1.locked){
-            head2.addForce(getAnticlockwiseVector(head2.position(),head1.position()) * movementForce,ForceMode2D.Impulse);
+            head2.addForce(getAnticlockwiseVector(head2.position(),head1.position()) * movementForceRadial,ForceMode2D.Impulse);
         }
     }
 
@@ -67,6 +111,14 @@ public class TwoHeads : MonoBehaviour
             rightHeadAtStart = false;
         }
         head2.toggleBite();
+    }
+
+    public void setLeftGrab(bool grab){
+        head1.setBite(grab);
+    }
+
+    public void setRightGrab(bool grab){
+        head2.setBite(grab);
     }
 
     bool LeftHeadAtStart = true;

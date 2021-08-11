@@ -154,7 +154,7 @@ GameObject:
   - component: {fileID: 8158989177163546643}
   - component: {fileID: 8158989177163546652}
   m_Layer: 0
-  m_Name: twoHeads
+  m_Name: twoBalls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -276,7 +276,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2043660329478610793, guid: 4b6629988b0dd894fa3d6abf1c6614d9, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2043660329478610793, guid: 4b6629988b0dd894fa3d6abf1c6614d9, type: 3}
       propertyPath: m_LocalRotation.w

@@ -2,18 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class ScoreCounter : MonoBehaviour
 {
 
-    Text currentScoreText;
-    Text highScoreText;
+    TMP_Text currentScoreText;
+    TMP_Text highScoreText;
+
+    
 
     // Start is called before the first frame update
     void Start()
     {
-        currentScoreText = gameObject.transform.Find("Current Score").gameObject.GetComponent<Text>();
-        highScoreText = gameObject.transform.Find("High Score").gameObject.GetComponent<Text>();
+        currentScoreText = gameObject.transform.Find("Current Score").gameObject.GetComponent<TMP_Text>();
+        highScoreText = gameObject.transform.Find("High Score").gameObject.GetComponent<TMP_Text>();
 
         GameEvents.current.onStart += this.begin;
         GameEvents.current.onDeath += this.reset;
@@ -50,7 +53,7 @@ public class ScoreCounter : MonoBehaviour
 
             if(currentScore > hightScore){
                 hightScore = currentScore;
-                highScoreText.text = "High Score: " + hightScore;
+                highScoreText.text = "Best: " + hightScore;
             }
         }
     }

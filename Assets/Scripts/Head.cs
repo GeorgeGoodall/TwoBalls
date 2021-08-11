@@ -14,6 +14,8 @@ public class Head : MonoBehaviour
     GameObject grabbedObject;
     Vector2 deltaGrabbedObject;
 
+    Animator anim;
+
     List<RopeSegment> attachedRopeSegments;
 
     bool initialised = false;
@@ -45,6 +47,7 @@ public class Head : MonoBehaviour
             rb = gameObject.GetComponent<Rigidbody2D>();
             attachedRopeSegments = new List<RopeSegment>();
             initialised = true;
+            anim = gameObject.GetComponent<Animator>();
         }
     }
 
@@ -80,19 +83,55 @@ public class Head : MonoBehaviour
 
     public void bite() => locked = true;
 
-    public void toggleBite(){
-        if(canGrab && !locked){
+    public void setBite(bool bite){
+         if(bite && canGrab && !locked){
             locked = true;
             grabbed = true;
+            if(anim != null){
+                anim.SetTrigger("Grab");
+            }
             grabbedObject = overObject;
             IWall wall = grabbedObject.GetComponent<IWall>();
             if(wall != null){
                 wall.grab(this);
             }
             deltaGrabbedObject =  gameObject.transform.position - grabbedObject.transform.position;
+
+        }else if(!bite && locked){
+            locked = false;
+            grabbed = false;
+            if(anim != null){
+                anim.SetTrigger("Release");
+            }
+            if(grabbedObject != null){
+                IWall wall = grabbedObject.GetComponent<IWall>();
+                if(wall != null){
+                    wall.release();
+                }
+            }
+        }
+    } 
+
+    public void toggleBite(){
+        if(canGrab && !locked){
+            locked = true;
+            grabbed = true;
+            if(anim != null){
+                anim.SetTrigger("Grab");
+            }
+            grabbedObject = overObject;
+            IWall wall = grabbedObject.GetComponent<IWall>();
+            if(wall != null){
+                wall.grab(this);
+            }
+            deltaGrabbedObject =  gameObject.transform.position - grabbedObject.transform.position;
+
         }else if(locked){
             locked = false;
             grabbed = false;
+            if(anim != null){
+                anim.SetTrigger("Release");
+            }
             if(grabbedObject != null){
                 IWall wall = grabbedObject.GetComponent<IWall>();
                 if(wall != null){
@@ -121,5 +160,8 @@ public class Head : MonoBehaviour
         locked = true;
         grabbed = false;
         canGrab = false;
+        if(anim != null){
+            anim.SetTrigger("Grab");
+        }
     }
 }

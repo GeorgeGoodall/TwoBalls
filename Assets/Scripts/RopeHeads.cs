@@ -6,7 +6,7 @@ public class RopeHeads : MonoBehaviour
 {    
     private LineRenderer lineRenderer;
     private List<RopeSegment> ropeSegments = new List<RopeSegment>();
-    private float ropeSegLen = 0.125f;
+    private float ropeSegLen = 0.3f;
     private int totalSegments;
     private float lineWidth = 0.1f;
 
@@ -153,7 +153,7 @@ public class RopeSegment{
 
     public Head? attached;
 
-    private Vector2 queuedForce = Vector2.zero;
+    private List<Vector2> queuedForces = new List<Vector2>();
 
     public RopeSegment(Vector2 pos, float _weight = 1f, Head? _attached = null){
         this.posNow = pos;
@@ -167,12 +167,16 @@ public class RopeSegment{
     }
 
     public void queueForce(Vector2 force){
-        queuedForce = force;
+        queuedForces.Add(force);
     }
 
     public Vector2 popForce(){
-        Vector2 forceTmp = queuedForce;
-        queuedForce = Vector2.zero;
+        Vector2 forceTmp = Vector2.zero;
+        foreach (Vector2 force in queuedForces)
+        {
+            forceTmp+=force;
+        }
+        queuedForces.Clear();
         return forceTmp;
 
     }
