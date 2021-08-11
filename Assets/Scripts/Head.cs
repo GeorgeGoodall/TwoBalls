@@ -81,6 +81,10 @@ public class Head : MonoBehaviour
         grabbed = false;
     } 
 
+    public void setCanGrab(bool _canGrab){
+        canGrab = _canGrab;
+    }
+
     public void bite() => locked = true;
 
     public void setBite(bool bite){

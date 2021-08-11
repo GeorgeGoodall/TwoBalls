@@ -28,6 +28,7 @@ public class sandWall : MonoBehaviour, IWall
     public void crumbleDone(){
         if(headAttached){
             attachedHead.setBite(false);
+            attachedHead.setCanGrab(false);
         }
         Destroy(gameObject);
     }

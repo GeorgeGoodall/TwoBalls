@@ -47,18 +47,22 @@ public class TwoHeads : MonoBehaviour
 
     public void applyVerticalForceToLeftHead(float force){
         head1.addForce(Vector2.up * force * movementForceVertical, ForceMode2D.Impulse);
+        LeftHeadAtStart = false;
     }
 
     public void applyVerticalForceToRightHead(float force){
         head2.addForce(Vector2.up * force * movementForceVertical, ForceMode2D.Impulse);
+        rightHeadAtStart = false;
     }
 
     public void applyHorizontalForceToLeftHead(float force){
         head1.addForce(Vector2.right * force * movementForceVertical, ForceMode2D.Impulse);
+        LeftHeadAtStart = false;
     }
 
     public void applyHorizontalForceToRightHead(float force){
         head2.addForce(Vector2.right * force * movementForceVertical, ForceMode2D.Impulse);
+        rightHeadAtStart = false;
     }
 
     public void applyRadialForceToLeftHead(float force){
