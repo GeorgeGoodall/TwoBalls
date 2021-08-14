@@ -8,6 +8,7 @@ public class WallSpawner : MonoBehaviour
     public static WallSpawner current;
 
     public List<GameObject> walls;
+    public List<GameObject> wallCreated;
 
     int columnCount = 5;
 
@@ -29,12 +30,10 @@ public class WallSpawner : MonoBehaviour
         elapsedTime = spawnTime;
         current = this;
 
-        spawnStartBlocks();
-
         speed = Params.current.initialWallFallSpeed;
     }
 
-
+    
 
     float elapsedTime = 100f;
 
@@ -109,30 +108,29 @@ public class WallSpawner : MonoBehaviour
 
 
     void randomSpawn(){
-        int random = Random.RandomRange(0,walls.Count);
+        int[] indexs = new int[]{0,0,0,1,1,2};
+
+        int random = Random.RandomRange(0,indexs.Length);
         
-        GameObject wallToSpawn = walls[random];
+        GameObject wallToSpawn = walls[indexs[random]];
+
+
+
 
         if(elapsedTime >= spawnTime){
 
             int columnIndex = columnIndexRandom();
 
-            GameObject currentWall = Instantiate(
-                wallToSpawn,
-                new Vector3(getColumnPosition(columnIndex),Params.current.screenBounds.y+(blockHeight/2),1f),
-                Quaternion.EulerAngles(0,0,0)
-            );
+            GameObject currentWall = createWall(wallToSpawn,new Vector3(getColumnPosition(columnIndex),Params.current.screenBounds.y+(blockHeight/2),1f));
 
             MoveDown md = currentWall.AddComponent<MoveDown>();
             md.speed = speed;
-            
-            DistroyAtBottom dab = currentWall.AddComponent<DistroyAtBottom>();
 
             elapsedTime = 0f;
         }
     }
 
-    void spawnStartBlocks(){
+    public void spawnStartBlocks(){
         GameObject grabbableWall = walls[0];
         GameObject row;
 
@@ -148,11 +146,8 @@ public class WallSpawner : MonoBehaviour
                 float xPos = blockHeight * (i - ((columnCount-1) / 2f));
                 float yPos = blockHeight * (j - ((rowCount-1) / 2f) + additionalRows/2);
 
-                GameObject currentWall = Instantiate(
-                    grabbableWall,
-                    new Vector3(xPos,yPos,1f),
-                    Quaternion.EulerAngles(0,0,0)
-                );
+                GameObject currentWall = createWall(grabbableWall,new Vector3(xPos,yPos,1f));
+
 
                 currentWall.transform.parent = startWalls.transform;
 
@@ -162,6 +157,32 @@ public class WallSpawner : MonoBehaviour
         StartWalls sw = startWalls.AddComponent<StartWalls>();
         sw.height = rowCount*blockHeight;
         
+    }
+
+    GameObject createWall(GameObject wall, Vector3 position){
+        GameObject currentWall = Instantiate(
+            wall,
+            new Vector3(position.x,position.y,1f),
+            Quaternion.EulerAngles(0,0,0)
+        );
+
+        wallCreated.Add(currentWall);
+
+        return currentWall;
+
+    }
+
+    public void removeWallFromList(GameObject wall){
+        wallCreated.Remove(wall);
+    }
+
+    public void reset(){
+        foreach (GameObject wall in wallCreated)
+        {
+            Destroy(wall);
+        }
+        wallCreated.Clear();
+        running = false;
     }
 
 

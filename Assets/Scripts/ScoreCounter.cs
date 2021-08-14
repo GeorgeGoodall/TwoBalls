@@ -52,6 +52,7 @@ public class ScoreCounter : MonoBehaviour
                 elapsedTime = 0f;
                 currentScore += 1;
                 currentScoreText.text = "Score: " + currentScore;
+                Params.current.lastScore = currentScore;
             }
 
             
@@ -59,6 +60,7 @@ public class ScoreCounter : MonoBehaviour
             if(currentScore > hightScore){
                 hightScore = currentScore;
                 highScoreText.text = "Best: " + hightScore;
+                Params.current.bestScore = hightScore;
             }
         }
     }

@@ -9,10 +9,8 @@ public class Params : MonoBehaviour {
 
     public Vector3 screenBounds;
 
-    private float minX;
-    private float maxX;
-    private float minY;
-    private float maxY;
+    public int lastScore = 0;
+    public int bestScore = 0;
      
     void Start() {
 

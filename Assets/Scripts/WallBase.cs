@@ -31,4 +31,15 @@ public class WallBase : MonoBehaviour, IWall
     public void release(){
 
     }
+
+
+    float blockHeight;
+
+    void Update()
+    {
+        if(transform.position.y < -Params.current.screenBounds.y - blockWidth){
+            WallSpawner.current.removeWallFromList(gameObject);
+            Destroy(gameObject);
+        }
+    }
 }

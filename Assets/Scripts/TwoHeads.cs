@@ -33,7 +33,7 @@ public class TwoHeads : MonoBehaviour
         head2Start = head2.position();
         rope = gameObject.transform.Find("Rope").GetComponent<RopeHeads>();
         //GameEvents.current.onDeath += reset;
-        GameEvents.current.onDeath += resetAfterSomeTime;
+        //GameEvents.current.onDeath += resetAfterSomeTime;
         
         assignControllerEvents();
     }
@@ -213,7 +213,7 @@ public class TwoHeads : MonoBehaviour
         Invoke("reset", 2);
     }
 
-    void reset(){
+    public void reset(){
         head1.gameObject.transform.position = head1Start;
         head2.gameObject.transform.position = head2Start;
         head1.reset();

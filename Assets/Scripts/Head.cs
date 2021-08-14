@@ -41,10 +41,10 @@ public class Head : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collider)
     {
-        overObject = collider.gameObject;
         if(collider.gameObject.CompareTag("Grabbable")){
             canGrab = true;
             wallsOver.Add(collider.gameObject);
+            overObject = collider.gameObject;
         }
     }
 

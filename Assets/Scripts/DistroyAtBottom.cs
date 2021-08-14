@@ -8,6 +8,8 @@ public class DistroyAtBottom : MonoBehaviour{
     Vector2 screenBounds;
     float blockHeight;
 
+    public bool distroyAtBottom = true;
+
     private void Start() {
         screenBounds = Params.current.screenBounds;
         blockHeight = WallSpawner.current.blockHeight;
