@@ -9,7 +9,7 @@ public class DistroyAtBottom : MonoBehaviour{
     float blockHeight;
 
     private void Start() {
-        screenBounds = WallSpawner.current.screenBounds;
+        screenBounds = Params.current.screenBounds;
         blockHeight = WallSpawner.current.blockHeight;
     }
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MoveDown : MonoBehaviour{
 
-    public float speed = 3.75f;
+    public float speed = 3f;
 
     private float elapsedTime;
 

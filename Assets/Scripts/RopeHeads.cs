@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class RopeHeads : MonoBehaviour
 {    
-    private LineRenderer lineRenderer;
+    public LineRenderer lineRenderer {get; private set;}
     private List<RopeSegment> ropeSegments = new List<RopeSegment>();
-    private float ropeSegLen = 0.3f;
+    private float ropeSegLen = 0.15f;
     private int totalSegments;
     private float lineWidth = 0.1f;
 
@@ -14,6 +14,8 @@ public class RopeHeads : MonoBehaviour
 
     Head head1;
     Head head2;
+
+    public float getRopeLength() => ropeSegLen * ropeSegments.Count;
 
     // Start is called before the first frame update
     void Start()
@@ -133,7 +135,7 @@ public class RopeHeads : MonoBehaviour
 
         Vector3[] ropePositions = new Vector3[this.totalSegments];
         for(int i = 0; i < this.totalSegments; i++){
-            ropePositions[i] = this.ropeSegments[i].posNow;
+            ropePositions[i] = new Vector3(this.ropeSegments[i].posNow.x,this.ropeSegments[i].posNow.y,1);
         }
 
         lineRenderer.positionCount = ropePositions.Length;

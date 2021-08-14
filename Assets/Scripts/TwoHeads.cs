@@ -9,16 +9,19 @@ public class TwoHeads : MonoBehaviour
 
     public float ropeLength {get; private set;} = 5f;
 
-    private Head head1;
-    private Head head2;
+    public Head head1 {get; private set;}
+    public Head head2 {get; private set;}
 
-    private float movementForceRadial = 1f;
-    private float movementForceVertical = 1f;
+    private float movementForceRadial = 2f;
+    private float movementForceVertical = 12f;
 
     private Vector2 head1Start;
     private Vector2 head2Start;
 
-    private RopeHeads rope;
+    public RopeHeads rope {get; private set;}
+
+    public bool canMove = true;
+    public bool dead = false;
 
     // Start is called before the first frame update
     void Start()
@@ -29,7 +32,9 @@ public class TwoHeads : MonoBehaviour
         head1Start = head1.position();
         head2Start = head2.position();
         rope = gameObject.transform.Find("Rope").GetComponent<RopeHeads>();
-        GameEvents.current.onDeath += reset;
+        //GameEvents.current.onDeath += reset;
+        GameEvents.current.onDeath += resetAfterSomeTime;
+        
         assignControllerEvents();
     }
 
@@ -118,12 +123,18 @@ public class TwoHeads : MonoBehaviour
     }
 
     public void setLeftGrab(bool grab){
-        head1.setBite(grab);
+        if(canMove){
+            head1.setBite(grab);
+        }
     }
 
     public void setRightGrab(bool grab){
-        head2.setBite(grab);
+        if(canMove){
+            head2.setBite(grab);
+        }
     }
+
+    
 
     bool LeftHeadAtStart = true;
     bool rightHeadAtStart = true;
@@ -179,14 +190,27 @@ public class TwoHeads : MonoBehaviour
         
     }
 
+    public void death(){
+        canMove = false;
+        head1.setBite(false);
+        head2.setBite(false);
+    }
+
     // Update is called once per frame
     void Update()
     {
-        movement();
-
-        if(head1.transform.position.y < -10){
-            GameEvents.current.death();
+        if(canMove){
+            movement();
         }
+
+        if((head1.transform.position.y < -10 || head2.transform.position.y < -10) && !dead){
+            GameEvents.current.death();
+            dead = true;
+        }
+    }
+
+    void resetAfterSomeTime(){
+        Invoke("reset", 2);
     }
 
     void reset(){
@@ -197,5 +221,6 @@ public class TwoHeads : MonoBehaviour
         LeftHeadAtStart = true;
         rightHeadAtStart = true;
         calledStart = false;
+        dead = false;
     }
 }

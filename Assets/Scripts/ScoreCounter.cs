@@ -43,6 +43,9 @@ public class ScoreCounter : MonoBehaviour
 
     void Update()
     {
+
+        //WallSpawner.current.setSpeed(Mathf.Min(Params.initialWallFallSpeed+currentScore*0.002f,8f));
+
         if(running){
             elapsedTime+=Time.deltaTime;
             if(elapsedTime >= 0.1f){
@@ -50,6 +53,8 @@ public class ScoreCounter : MonoBehaviour
                 currentScore += 1;
                 currentScoreText.text = "Score: " + currentScore;
             }
+
+            
 
             if(currentScore > hightScore){
                 hightScore = currentScore;

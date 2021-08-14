@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class sandWall : MonoBehaviour, IWall
+public class sandWall : WallBase, IWall
 {
 
     Animator anim;
@@ -17,6 +17,8 @@ public class sandWall : MonoBehaviour, IWall
     {
         anim = this.GetComponent<Animator>();
         anim.speed = anim.runtimeAnimatorController.animationClips[0].length / distructionTime;
+
+        base.Start();
     }
 
     // Update is called once per frame

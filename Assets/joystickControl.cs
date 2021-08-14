@@ -20,7 +20,7 @@ public class joystickControl : MonoBehaviour
     {
         if(leftJoystick.pointerDown){
             TwoHeads.current.setLeftGrab(false);
-            // TwoHeads.current.applyRadialForceToLeftHead(leftJoystick.Horizontal);
+            //TwoHeads.current.applyRadialForceToLeftHead(leftJoystick.Horizontal);
             TwoHeads.current.applyVerticalForceToLeftHead(leftJoystick.Vertical);
             TwoHeads.current.applyHorizontalForceToLeftHead(leftJoystick.Horizontal);
             Debug.Log(leftJoystick.Horizontal);
@@ -31,7 +31,7 @@ public class joystickControl : MonoBehaviour
 
         if(rightJoystick.pointerDown){
             TwoHeads.current.setRightGrab(false);
-            // TwoHeads.current.applyRadialForceToRightHead(rightJoystick.Horizontal);
+            //TwoHeads.current.applyRadialForceToRightHead(rightJoystick.Horizontal);
             TwoHeads.current.applyVerticalForceToRightHead(rightJoystick.Vertical);
             TwoHeads.current.applyHorizontalForceToRightHead(rightJoystick.Horizontal);
         }

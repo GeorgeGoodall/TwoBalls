@@ -18,6 +18,17 @@ public class Head : MonoBehaviour
 
     List<RopeSegment> attachedRopeSegments;
 
+    DropShadow dropShadow;
+
+    ParticleSystem sphearParticls;
+    ParticleSystem coneParticls;
+
+    SpriteRenderer spriteRenderer;
+
+    bool dead = false;
+
+
+
     bool initialised = false;
 
     // Start is called before the first frame update
@@ -26,11 +37,14 @@ public class Head : MonoBehaviour
         initialise();
     }
 
+    List<GameObject> wallsOver;
+
     void OnTriggerEnter2D(Collider2D collider)
     {
         overObject = collider.gameObject;
         if(collider.gameObject.CompareTag("Grabbable")){
             canGrab = true;
+            wallsOver.Add(collider.gameObject);
         }
     }
 
@@ -38,7 +52,10 @@ public class Head : MonoBehaviour
     {
         if (collider.gameObject.CompareTag("Grabbable"))
         {
-            canGrab = false;
+            wallsOver.Remove(collider.gameObject);
+            if(wallsOver.Count <= 0){
+                canGrab = false;
+            }
         }
     }
 
@@ -48,6 +65,11 @@ public class Head : MonoBehaviour
             attachedRopeSegments = new List<RopeSegment>();
             initialised = true;
             anim = gameObject.GetComponent<Animator>();
+            dropShadow = gameObject.GetComponent<DropShadow>();
+            sphearParticls = gameObject.transform.Find("Sphear Particles").GetComponent<ParticleSystem>();
+            coneParticls = gameObject.transform.Find("Cone Particles").GetComponent<ParticleSystem>();
+            spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+            wallsOver = new List<GameObject>();
         }
     }
 
@@ -88,35 +110,41 @@ public class Head : MonoBehaviour
     public void bite() => locked = true;
 
     public void setBite(bool bite){
-         if(bite && canGrab && !locked){
-            locked = true;
-            grabbed = true;
-            if(anim != null){
-                anim.SetTrigger("Grab");
-            }
-            grabbedObject = overObject;
-            IWall wall = grabbedObject.GetComponent<IWall>();
-            if(wall != null){
-                wall.grab(this);
-            }
-            deltaGrabbedObject =  gameObject.transform.position - grabbedObject.transform.position;
-
-        }else if(!bite && locked){
-            locked = false;
-            grabbed = false;
-            if(anim != null){
-                anim.SetTrigger("Release");
-            }
-            if(grabbedObject != null){
+        
+            if(bite && canGrab && !locked && !dead){
+                locked = true;
+                grabbed = true;
+                if(anim != null){
+                    anim.SetTrigger("Grab");
+                }
+                dropShadow.setLayer(-1);
+                grabbedObject = overObject;
                 IWall wall = grabbedObject.GetComponent<IWall>();
                 if(wall != null){
-                    wall.release();
+                    wall.grab(this);
+                }
+                
+                deltaGrabbedObject =  gameObject.transform.position - grabbedObject.transform.position;
+
+            }else if(!bite && locked){
+                locked = false;
+                grabbed = false;
+                if(anim != null){
+                    anim.SetTrigger("Release");
+                }
+                dropShadow.setLayer(1);
+                if(grabbedObject != null){
+                    IWall wall = grabbedObject.GetComponent<IWall>();
+                    if(wall != null){
+                        wall.release();
+                    }
                 }
             }
-        }
+        
     } 
 
     public void toggleBite(){
+        
         if(canGrab && !locked){
             locked = true;
             grabbed = true;
@@ -144,6 +172,8 @@ public class Head : MonoBehaviour
             }
         }
     }
+
+
         
     
 
@@ -160,12 +190,34 @@ public class Head : MonoBehaviour
         }
     }
 
+    public void death(){
+        sphearParticls.Emit(150);
+        spriteRenderer.enabled = false;
+        dropShadow.setActive(false);
+        dead = true;
+    }
+
+    public void fall(){
+        coneParticls.Emit(150);
+        dead = true;
+    }
+
     public void reset(){
         locked = true;
         grabbed = false;
         canGrab = false;
+        spriteRenderer.enabled = true;
+        dead = false;
+        dropShadow.setActive(true);
         if(anim != null){
             anim.SetTrigger("Grab");
+        }
+    }
+
+    void Update()
+    {
+        if(transform.position.y < -10 && !dead){
+            fall();
         }
     }
 }
