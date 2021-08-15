@@ -11,6 +11,7 @@ public class MainMenu : MonoBehaviour
     private Button playButton;
     private Button skinsButton;
     private Button settingsButton;
+    private Button closeButton;
 
     // Start is called before the first frame update
     void Start()
@@ -19,6 +20,7 @@ public class MainMenu : MonoBehaviour
         playButton = GameObject.Find("Play").GetComponent<Button>();
         skinsButton = GameObject.Find("Skins").GetComponent<Button>();
         settingsButton = GameObject.Find("Settings").GetComponent<Button>();
+        closeButton = GameObject.Find("CloseButton").GetComponent<Button>();
 
         if(Params.current.bestScore > 0){
             bestScoreText.text = "Current Best:\n"+Params.current.bestScore;
@@ -42,11 +44,13 @@ public class MainMenu : MonoBehaviour
 
     void assignButtonFunctions(){
         playButton.onClick.AddListener(playButtonClick);
+        skinsButton.onClick.AddListener(skinButtonClick);
+        closeButton.onClick.AddListener(closeApplication);
     }
 
-    void playButtonClick(){
-        StateManager.current.startGame();
-    }
+    void closeApplication() => Application.Quit();
+    void playButtonClick() => StateManager.current.startGame();
+    void skinButtonClick() => StateManager.current.openSkins();
 
     // Update is called once per frame
     void Update()

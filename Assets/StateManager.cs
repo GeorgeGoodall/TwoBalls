@@ -17,6 +17,17 @@ public class StateManager : MonoBehaviour
     public GameObject mainMenuUI;
     public GameObject GameUI;
     public GameObject DeathUI;
+    public GameObject SkinsPage;
+
+    public enum Page
+    {
+        MAIN_MENU,
+        GAME_UI,
+        DEATH_UI,
+        SKINS_PAGE
+    }
+
+    private GameObject[] pageObjects;
 
     // Start is called before the first frame update
     void Start()
@@ -25,11 +36,30 @@ public class StateManager : MonoBehaviour
         // mainMenuUI = GameObject.Find("MainMenu");
         // GameUI = GameObject.Find("GameScreen");
         // DeathUI = GameObject.Find("DeathScreen");
+
+        pageObjects = new GameObject[]{
+            mainMenuUI,
+            GameUI,
+            DeathUI,
+            SkinsPage
+        };
+        hideAll();
         mainMenuUI.SetActive(true);
-        GameUI.SetActive(false);
-        DeathUI.SetActive(false);
+
 
         GameEvents.current.onDeath += showDeathAfter1Second;
+    }
+
+    void openPage(Page page){
+        hideAll();
+        pageObjects[(int)page].SetActive(true);
+    }
+
+    void hideAll(){
+        foreach (GameObject page in pageObjects)
+        {
+            page.SetActive(false);
+        }
     }
 
     public void showDeathAfter1Second(){
@@ -38,25 +68,23 @@ public class StateManager : MonoBehaviour
 
     public void startGame(){
         WallSpawner.current.reset();
-        mainMenuUI.SetActive(false);
-        GameUI.SetActive(true);
-        DeathUI.SetActive(false);
         CameraAnimation.current.playAnimation();
         WallSpawner.current.spawnStartBlocks();
         TwoHeads.current.reset();
+        openPage(Page.GAME_UI);
     }
 
     public void showGameoverScreen(){
-        mainMenuUI.SetActive(false);
-        GameUI.SetActive(false);
-        DeathUI.SetActive(true);
+        openPage(Page.DEATH_UI);
         //GameOverScreen.current.fadeIn(0.2f);
     }
 
     public void openMainMenu(){
-        mainMenuUI.SetActive(true);
-        GameUI.SetActive(false);
-        DeathUI.SetActive(false);
+        openPage(Page.MAIN_MENU);
+    }
+
+    public void openSkins(){
+        openPage(Page.SKINS_PAGE);
     }
 
     // Update is called once per frame
