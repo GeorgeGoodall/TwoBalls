@@ -106,11 +106,27 @@ public class WallSpawner : MonoBehaviour
     }
 
 
+    bool spawnedDeath = false;
+
 
     void randomSpawn(){
+
+
+
         int[] indexs = new int[]{0,0,0,1,1,2};
 
+        if(spawnedDeath){
+            indexs = new int[]{0,0,0,1,1};
+            spawnedDeath = false;
+        }
+
+        
+
         int random = Random.RandomRange(0,indexs.Length);
+
+        if(indexs[random] == 2){
+            spawnedDeath = true;
+        }
         
         GameObject wallToSpawn = walls[indexs[random]];
 
@@ -130,6 +146,8 @@ public class WallSpawner : MonoBehaviour
         }
     }
 
+    GameObject startWalls;
+
     public void spawnStartBlocks(){
         GameObject grabbableWall = walls[0];
         GameObject row;
@@ -137,8 +155,9 @@ public class WallSpawner : MonoBehaviour
         int additionalRows = 4;
         int rowCount = (int)Mathf.Ceil(Params.current.screenBounds.y/(blockHeight/2))+additionalRows;
 
+        Destroy(startWalls);
 
-        GameObject startWalls = new GameObject("startWalls");
+        startWalls = new GameObject("startWalls");
 
         for(int i = 1; i < columnCount-1; i++){
             for(int j = 0; j < rowCount; j++){

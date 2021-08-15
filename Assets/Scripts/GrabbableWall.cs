@@ -11,7 +11,7 @@ public class GrabbableWall : WallBase, IWall
     }
 
     public void grab(Head head){
-
+        SoundManager.current.play(SoundManager.AudioType.grabbableGrab);
     }
 
     public void release(){

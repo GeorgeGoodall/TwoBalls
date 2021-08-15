@@ -98,16 +98,10 @@ public class Head : MonoBehaviour
         return !locked;
     }
 
-    public void unbite(){
-        locked = false;
-        grabbed = false;
-    } 
-
     public void setCanGrab(bool _canGrab){
         canGrab = _canGrab;
     }
 
-    public void bite() => locked = true;
 
     public void setBite(bool bite){
         
@@ -115,7 +109,7 @@ public class Head : MonoBehaviour
                 locked = true;
                 grabbed = true;
                 if(anim != null){
-                    anim.SetTrigger("Grab");
+                    anim.SetBool("grabbing",true);
                 }
                 dropShadow.setLayer(-1);
                 grabbedObject = overObject;
@@ -130,7 +124,7 @@ public class Head : MonoBehaviour
                 locked = false;
                 grabbed = false;
                 if(anim != null){
-                    anim.SetTrigger("Release");
+                    anim.SetBool("grabbing",false);
                 }
                 dropShadow.setLayer(1);
                 if(grabbedObject != null){
@@ -143,41 +137,6 @@ public class Head : MonoBehaviour
         
     } 
 
-    public void toggleBite(){
-        
-        if(canGrab && !locked){
-            locked = true;
-            grabbed = true;
-            if(anim != null){
-                anim.SetTrigger("Grab");
-            }
-            grabbedObject = overObject;
-            IWall wall = grabbedObject.GetComponent<IWall>();
-            if(wall != null){
-                wall.grab(this);
-            }
-            deltaGrabbedObject =  gameObject.transform.position - grabbedObject.transform.position;
-
-        }else if(locked){
-            locked = false;
-            grabbed = false;
-            if(anim != null){
-                anim.SetTrigger("Release");
-            }
-            if(grabbedObject != null){
-                IWall wall = grabbedObject.GetComponent<IWall>();
-                if(wall != null){
-                    wall.release();
-                }
-            }
-        }
-    }
-
-
-        
-    
-
-    public Vector2 velocity() => rb.velocity;
     public Vector2 position(){
         try{
             if(locked && grabbed){
@@ -195,10 +154,15 @@ public class Head : MonoBehaviour
         spriteRenderer.enabled = false;
         dropShadow.setActive(false);
         dead = true;
+        SoundManager.current.play(SoundManager.AudioType.deathGrab);
     }
 
     public void fall(){
         coneParticls.Emit(150);
+        sphearParticls.Emit(150);
+        spriteRenderer.enabled = false;
+        dropShadow.setActive(false);
+        SoundManager.current.play(SoundManager.AudioType.deathGrab);
         dead = true;
     }
 
@@ -216,7 +180,7 @@ public class Head : MonoBehaviour
 
     void Update()
     {
-        if(transform.position.y < -10 && !dead){
+        if((transform.position.y < -Params.current.screenBounds.y - 2f || transform.position.x < -Params.current.screenBounds.x - 5f || transform.position.x > Params.current.screenBounds.x + 5f) && !dead){
             fall();
         }
     }

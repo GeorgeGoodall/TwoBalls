@@ -35,7 +35,12 @@ public class sandWall : WallBase, IWall
         Destroy(gameObject);
     }
 
+    public void crumbleStep(){
+        SoundManager.current.play(SoundManager.AudioType.sandCrumble);
+    }
+
     public void grab(Head head){
+        SoundManager.current.play(SoundManager.AudioType.sandGrab);
         anim.SetTrigger("crumble");
         attachedHead = head;
         headAttached = true;
