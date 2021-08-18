@@ -21,16 +21,25 @@ public class RopeHeads : MonoBehaviour
     void Start()
     {
         this.lineRenderer = this.GetComponent<LineRenderer>();
+
+        lineRenderer.useWorldSpace = true;
         
-        head1 = gameObject.transform.parent.transform.Find("head1").GetComponent<Head>();
-        head2 = gameObject.transform.parent.transform.Find("head2").GetComponent<Head>();
+        initialize();
+    }
+
+    public void initialize(){
+        
 
         twoHeads = gameObject.transform.parent.GetComponent<TwoHeads>();
 
-
-        totalSegments = (int)(twoHeads.ropeLength / ropeSegLen);
+        head1 = twoHeads.head1;
+        head2 = twoHeads.head2;
+        
+        totalSegments = (int)(Params.current.ropeLength / ropeSegLen);
 
         Vector2 ropeStartPoint = head1.position();
+
+        this.ropeSegments.Clear();
 
         for(int i = 0; i < totalSegments; i++){
             if(i == 0){
@@ -43,7 +52,6 @@ public class RopeHeads : MonoBehaviour
             ropeStartPoint.y -= ropeSegLen;
         }
     }
-
 
     // Update is called once per frame
     void Update()

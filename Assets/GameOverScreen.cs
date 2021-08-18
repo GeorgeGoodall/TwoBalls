@@ -68,11 +68,11 @@ public class GameOverScreen : MonoBehaviour
     }
 
     public void tryAgain(){
-        StateManager.current.startGame();
-
+        StateManager.current.TryAgain();
     }
 
     public void mainMenu(){
+        GameEvents.current.end();
         StateManager.current.openMainMenu();
 
     }

@@ -18,8 +18,10 @@ public class StartWalls : MonoBehaviour
     void LateUpdate()
     {
         // if two heads becomes higher than an ammount start moving the game up
-
-        float currentHeight = (TwoHeads.current.head1.position().y + TwoHeads.current.head2.position().y)/2;
+        float currentHeight = 0;
+        if(TwoHeads.current.head1 != null && TwoHeads.current.head2 != null){
+            currentHeight = (TwoHeads.current.head1.position().y + TwoHeads.current.head2.position().y)/2;   
+        }
 
 
 

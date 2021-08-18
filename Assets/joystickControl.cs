@@ -2,17 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class joystickControl : MonoBehaviour
+public class JoystickControl : MonoBehaviour
 {
 
     public MyJoystick leftJoystick;
     public MyJoystick rightJoystick;
+
+    public static JoystickControl current;
 
     // Start is called before the first frame update
     void Start()
     {
         leftJoystick = gameObject.transform.Find("Left Joystick").GetComponent<MyJoystick>();
         rightJoystick = gameObject.transform.Find("Right Joystick").GetComponent<MyJoystick>();
+
+        current = this;
     }
 
     // Update is called once per frame
@@ -39,6 +43,11 @@ public class joystickControl : MonoBehaviour
             TwoHeads.current.setRightGrab(true);
         }
         // Update is called once per frame
+    }
+
+    public void reset(){
+        leftJoystick.OnPointerUp(null);
+        rightJoystick.OnPointerUp(null);
     }
     
 }

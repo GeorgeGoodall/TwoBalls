@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GameEvents : MonoBehaviour
 {
-   public static GameEvents current;
+    public static GameEvents current;
 
     private void Awake()
     {
@@ -13,13 +13,20 @@ public class GameEvents : MonoBehaviour
     }
     
     public event Action onStart;
-
+    public event Action onTryAgain;
+    public event Action onEnd;
     public event Action onDeath;
     
 
     public void start(){
         if(onStart != null){
             onStart();
+        }
+    }
+
+    public void end(){
+        if(onEnd != null){
+            onEnd();
         }
     }
 

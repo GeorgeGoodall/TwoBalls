@@ -7,8 +7,6 @@ public class TwoHeads : MonoBehaviour
 
     public static TwoHeads current;
 
-    public float ropeLength {get; private set;} = 5f;
-
     public Head head1 {get; private set;}
     public Head head2 {get; private set;}
 
@@ -22,17 +20,6 @@ public class TwoHeads : MonoBehaviour
 
     public bool canMove = true;
     public bool dead = false;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-        head1 = gameObject.transform.Find("head1").GetComponent<Head>();
-        head2 = gameObject.transform.Find("head2").GetComponent<Head>();
-        head1Start = head1.position();
-        head2Start = head2.position();
-        rope = gameObject.transform.Find("Rope").GetComponent<RopeHeads>();
-    }
 
     private void Awake() {
         current = this;
@@ -185,6 +172,7 @@ public class TwoHeads : MonoBehaviour
             movement();
         }
 
+
         if((head1.transform.position.y < -10 || head2.transform.position.y < -10) && !dead){
             GameEvents.current.death();
             dead = true;
@@ -196,8 +184,8 @@ public class TwoHeads : MonoBehaviour
     }
 
     public void reset(){
-        head1.gameObject.transform.position = head1Start;
-        head2.gameObject.transform.position = head2Start;
+        head1.gameObject.transform.position = BallSpawner.current.getBallSpawnPosition(true);
+        head2.gameObject.transform.position = BallSpawner.current.getBallSpawnPosition(false);
         head1.reset();
         head2.reset();
         LeftHeadAtStart = true;
@@ -205,5 +193,17 @@ public class TwoHeads : MonoBehaviour
         calledStart = false;
         dead = false;
         canMove = true;
+    }
+
+    public void updateRope(GameObject _rope){
+        rope = _rope.GetComponent<RopeHeads>();
+    }
+
+    private Head testHead;
+
+    public void updateHeads(GameObject left, GameObject right){  
+        head1 = left.GetComponent<Head>();
+        testHead = left.GetComponent<Head>();
+        head2 = right.GetComponent<Head>();
     }
 }

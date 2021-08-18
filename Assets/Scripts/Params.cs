@@ -6,8 +6,8 @@ public class Params : MonoBehaviour {
 
     public static Params current;
     public float initialWallFallSpeed = 1.5f;
-
     public Vector3 screenBounds;
+    public float ropeLength {get; private set;} = 5f;
 
     public int lastScore = 0;
     public int bestScore = 0;

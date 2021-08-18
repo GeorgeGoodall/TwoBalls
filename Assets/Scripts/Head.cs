@@ -111,7 +111,11 @@ public class Head : MonoBehaviour
                 if(anim != null){
                     anim.SetBool("grabbing",true);
                 }
-                dropShadow.setLayer(-1);
+                if(dropShadow != null){
+                    dropShadow.setLayer(-1);
+        }else{
+            Debug.LogError("Ball Object Doesn't Have A Drop Shadow");
+        }
                 grabbedObject = overObject;
                 IWall wall = grabbedObject.GetComponent<IWall>();
                 if(wall != null){
@@ -126,7 +130,11 @@ public class Head : MonoBehaviour
                 if(anim != null){
                     anim.SetBool("grabbing",false);
                 }
-                dropShadow.setLayer(1);
+                if(dropShadow != null){
+                    dropShadow.setLayer(1);
+        }else{
+            Debug.LogError("Ball Object Doesn't Have A Drop Shadow");
+        }
                 if(grabbedObject != null){
                     IWall wall = grabbedObject.GetComponent<IWall>();
                     if(wall != null){
@@ -152,7 +160,11 @@ public class Head : MonoBehaviour
     public void death(){
         sphearParticls.Emit(150);
         spriteRenderer.enabled = false;
-        dropShadow.setActive(false);
+        if(dropShadow != null){
+            dropShadow.setActive(false);
+        }else{
+            Debug.LogError("Ball Object Doesn't Have A Drop Shadow");
+        }
         dead = true;
         SoundManager.current.play(SoundManager.AudioType.deathGrab);
     }
@@ -161,7 +173,11 @@ public class Head : MonoBehaviour
         coneParticls.Emit(150);
         sphearParticls.Emit(150);
         spriteRenderer.enabled = false;
-        dropShadow.setActive(false);
+        if(dropShadow != null){
+            dropShadow.setActive(false);
+        }else{
+            Debug.LogError("Ball Object Doesn't Have A Drop Shadow");
+        }
         SoundManager.current.play(SoundManager.AudioType.deathGrab);
         dead = true;
     }
@@ -172,7 +188,11 @@ public class Head : MonoBehaviour
         canGrab = false;
         spriteRenderer.enabled = true;
         dead = false;
-        dropShadow.setActive(true);
+        if(dropShadow != null){
+            dropShadow.setActive(true);
+        }else{
+            Debug.LogError("Ball Object Doesn't Have A Drop Shadow");
+        }
         if(anim != null){
             anim.SetTrigger("Grab");
         }

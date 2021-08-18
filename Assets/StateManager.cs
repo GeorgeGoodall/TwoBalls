@@ -67,11 +67,21 @@ public class StateManager : MonoBehaviour
     }
 
     public void startGame(){
+        BallSpawner.current.spawnTwoBalls();
+        setupGame();
+    }
+
+    public void TryAgain(){
+        setupGame();
+        TwoHeads.current.reset();
+    }
+
+    private void setupGame(){
         WallSpawner.current.reset();
         CameraAnimation.current.playAnimation();
         WallSpawner.current.spawnStartBlocks();
-        TwoHeads.current.reset();
         openPage(Page.GAME_UI);
+        JoystickControl.current.reset();
     }
 
     public void showGameoverScreen(){

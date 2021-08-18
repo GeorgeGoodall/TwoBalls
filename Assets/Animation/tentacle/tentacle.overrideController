@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: tentacle
+  m_Controller: {fileID: 9100000, guid: 8fa70f15f3478a6429c4a302a8e2514c, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 0f90c084f0574a3409a20c61c0f17c2e, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: cb9bb9a3f5d256943b3b4e5c01d915f7, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 64f417a12e43fac439cf95c7b3a66456, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: d92d1514445cea246abcad2e4ca7ff13, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 4105970bee1468549bcc5d9c743fc5fd, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 901fdc64f9d7f6643a2ea339d5e703fd, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 21997591353b3684c89105bd91898e2f, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 9ba39581cbc264748872b533f572dabb, type: 2}
