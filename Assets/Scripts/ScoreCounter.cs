@@ -29,7 +29,7 @@ public class ScoreCounter : MonoBehaviour
     void reset(){
         currentScore = 0;
         running = false;
-        elapsedTime = 0;
+        elapsedDistance = 0;
         currentScoreText.text = "Score: " + currentScore;
     }
 
@@ -38,8 +38,7 @@ public class ScoreCounter : MonoBehaviour
     int hightScore;
 
     // Update is called once per frame
-
-    float elapsedTime = 0f;
+    float elapsedDistance = 0f;
 
     void Update()
     {
@@ -47,9 +46,9 @@ public class ScoreCounter : MonoBehaviour
         //WallSpawner.current.setSpeed(Mathf.Min(Params.initialWallFallSpeed+currentScore*0.002f,8f));
 
         if(running){
-            elapsedTime+=Time.deltaTime;
-            if(elapsedTime >= 0.1f){
-                elapsedTime = 0f;
+            elapsedDistance+=Time.deltaTime*MoveDown.currentSpeed();
+            if(elapsedDistance >= 0.1f){
+                elapsedDistance = 0f;
                 currentScore += 1;
                 currentScoreText.text = "Score: " + currentScore;
                 Params.current.lastScore = currentScore;

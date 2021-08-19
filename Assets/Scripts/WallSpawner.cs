@@ -13,33 +13,20 @@ public class WallSpawner : MonoBehaviour
     int columnCount = 5;
 
     int currentPosition = 0;
-
-    
-
-    
     public float blockHeight;
-    float spawnTime = 4f;
-    float speed = 1f;
 
     // Start is called before the first frame update
     void Start()
     {
 
         blockHeight = walls[0].GetComponent<SpriteRenderer>().size.x * walls[0].gameObject.transform.lossyScale.x;
-        spawnTime =  blockHeight/speed;
-        elapsedTime = spawnTime;
+        elapsedDistance = blockHeight;
         current = this;
-
-        speed = Params.current.initialWallFallSpeed;
     }
 
     
 
-    float elapsedTime = 100f;
-
-    public void setSpeed(float _speed) {
-        spawnTime = _speed;
-    }
+    float elapsedDistance = 100f;
 
     public bool running = false;
 
@@ -47,8 +34,7 @@ public class WallSpawner : MonoBehaviour
     void Update()
     {
         if(running){
-            elapsedTime += Time.deltaTime;
-            spawnTime = blockHeight/speed;
+            elapsedDistance += Time.deltaTime * MoveDown.currentSpeed();
             randomSpawn();
         }
         
@@ -85,7 +71,7 @@ public class WallSpawner : MonoBehaviour
     }
 
     void straightGrabbable(){
-        if(elapsedTime >= spawnTime){
+        if(elapsedDistance >= blockHeight){
 
             for(int i = 0; i < columnCount; i++){
                 GameObject currentWall = Instantiate(
@@ -95,54 +81,45 @@ public class WallSpawner : MonoBehaviour
                 );
 
                 MoveDown md = currentWall.AddComponent<MoveDown>();
-                md.speed = speed;
                 
                 DistroyAtBottom dab = currentWall.AddComponent<DistroyAtBottom>();
             }
 
 
-            elapsedTime = 0f;
+            elapsedDistance = 0f;
         }
     }
 
 
-    bool spawnedDeath = false;
+    int spawnedDeath = 0;
 
 
     void randomSpawn(){
+        if(elapsedDistance >= blockHeight){
+            int[] indexs = new int[]{0,0,0,1,1,2,2};
 
+            if(spawnedDeath != 0){
+                indexs = new int[]{0,0,0,1,1};
+                spawnedDeath--;
+            }
 
+            
 
-        int[] indexs = new int[]{0,0,0,1,1,2};
+            int random = Random.RandomRange(0,indexs.Length);
 
-        if(spawnedDeath){
-            indexs = new int[]{0,0,0,1,1};
-            spawnedDeath = false;
-        }
-
-        
-
-        int random = Random.RandomRange(0,indexs.Length);
-
-        if(indexs[random] == 2){
-            spawnedDeath = true;
-        }
-        
-        GameObject wallToSpawn = walls[indexs[random]];
-
-
-
-
-        if(elapsedTime >= spawnTime){
+            if(indexs[random] == 2){
+                spawnedDeath = 2;
+            }
+            
+            GameObject wallToSpawn = walls[indexs[random]];
 
             int columnIndex = columnIndexRandom();
 
             GameObject currentWall = createWall(wallToSpawn,new Vector3(getColumnPosition(columnIndex),Params.current.screenBounds.y+(blockHeight/2),1f));
 
             MoveDown md = currentWall.AddComponent<MoveDown>();
-            md.speed = speed;
 
-            elapsedTime = 0f;
+            elapsedDistance = 0f;
         }
     }
 

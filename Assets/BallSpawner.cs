@@ -7,11 +7,11 @@ public class BallSpawner : MonoBehaviour
 {
     public static BallSpawner current;
 
-    public bool isMain = false;
-
     public GameObject TwoBallsPrefab;
 
     public GameObject ropePrefab;
+
+    private GameObject TwoBalls;
 
 
 
@@ -21,41 +21,46 @@ public class BallSpawner : MonoBehaviour
     private float ropeHeight = 1.5f;
 
     private void Start() {
-        if(isMain){
-            current = this;
-        }
-        //GameEvents.current.onStart += spawnTwoBalls;
-        //GameEvents.current.onEnd += DestroyTwoBalls;
+        current = this;
+        spawnBallsAtViewingPosition();
+    }
+
+    public void spawnBallsAtViewingPosition(){
+        spawnTwoBallsAtPosition(new Vector3(0,5,0));
     }
 
     public void spawnTwoBalls(){
-        GameObject TwoBalls = Instantiate(TwoBallsPrefab, startPos, Quaternion.EulerAngles(0,0,0));
+        spawnTwoBallsAtPosition(startPos);
+    }
+
+    public void spawnTwoBallsAtPosition(Vector3 pos){
+        TwoBalls = Instantiate(TwoBallsPrefab, pos, Quaternion.EulerAngles(0,0,0));
 
         GameObject leftBallPrefab = SkinSettings.current.leftBall;
         GameObject rightBallPrefab = SkinSettings.current.rightBall;
 
         GameObject leftBall = Instantiate(
             SkinSettings.current.leftBall,
-            getBallSpawnPosition(true),
+            getBallSpawnPosition(true, pos),
             leftBallPrefab.transform.rotation,
             TwoBalls.transform
         );
 
         GameObject rightBall = Instantiate(
             SkinSettings.current.rightBall,
-            getBallSpawnPosition(false),
+            getBallSpawnPosition(false, pos),
             rightBallPrefab.transform.rotation,
             TwoBalls.transform
         );
 
         GameObject rope = Instantiate(
             ropePrefab, 
-            startPos, 
+            pos, 
             Quaternion.EulerAngles(0,0,0),
             TwoBalls.transform
         );
 
-        //rope.GetComponent<LineRenderer>().SetPositions(genRopePath(10,startPos,ballSeperation,1.5f));
+        //rope.GetComponent<LineRenderer>().SetPositions(genRopePath(10,pos,ballSeperation,1.5f));
 
         //TwoHeads.current.updateRope(rope);
         TwoHeads.current.updateHeads(leftBall,rightBall);
@@ -65,7 +70,15 @@ public class BallSpawner : MonoBehaviour
     }
 
     public void DestroyTwoBalls(){
+        Destroy(TwoBalls);
+    }
 
+    public Vector3 getBallSpawnPosition(bool isLeft, Vector3 pos){
+        if(isLeft){
+            return new Vector3(pos.x-ballSeperation/2,pos.y,pos.z);
+        }else{
+            return new Vector3(pos.x+ballSeperation/2,pos.y,pos.z);
+        }
     }
 
     public Vector3 getBallSpawnPosition(bool isLeft){

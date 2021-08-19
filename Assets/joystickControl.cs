@@ -27,7 +27,6 @@ public class JoystickControl : MonoBehaviour
             //TwoHeads.current.applyRadialForceToLeftHead(leftJoystick.Horizontal);
             TwoHeads.current.applyVerticalForceToLeftHead(leftJoystick.Vertical);
             TwoHeads.current.applyHorizontalForceToLeftHead(leftJoystick.Horizontal);
-            Debug.Log(leftJoystick.Horizontal);
         }
         else{
             TwoHeads.current.setLeftGrab(true);

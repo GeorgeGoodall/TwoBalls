@@ -7,6 +7,8 @@ public class SkinsScreen : MonoBehaviour
 {
 
     private Button backButton;
+    public GameObject displayBalls;
+    public GameObject skinsWrapper;
 
     // Start is called before the first frame update
     void Start()

@@ -158,7 +158,7 @@ public class Head : MonoBehaviour
     }
 
     public void death(){
-        sphearParticls.Emit(150);
+        sphearParticls.Emit(250);
         spriteRenderer.enabled = false;
         if(dropShadow != null){
             dropShadow.setActive(false);
@@ -170,8 +170,8 @@ public class Head : MonoBehaviour
     }
 
     public void fall(){
-        coneParticls.Emit(150);
-        sphearParticls.Emit(150);
+        coneParticls.Emit(250);
+        sphearParticls.Emit(250);
         spriteRenderer.enabled = false;
         if(dropShadow != null){
             dropShadow.setActive(false);
@@ -200,7 +200,7 @@ public class Head : MonoBehaviour
 
     void Update()
     {
-        if((transform.position.y < -Params.current.screenBounds.y - 2f || transform.position.x < -Params.current.screenBounds.x - 5f || transform.position.x > Params.current.screenBounds.x + 5f) && !dead){
+        if((transform.position.y < -Params.current.screenBounds.y - 1f || transform.position.x < -Params.current.screenBounds.x - 5f || transform.position.x > Params.current.screenBounds.x + 5f) && !dead){
             fall();
         }
     }

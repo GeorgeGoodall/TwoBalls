@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8158989177163546643}
   - component: {fileID: 8158989177163546652}
-  - component: {fileID: 3430722392535518492}
   m_Layer: 0
   m_Name: twoBalls
   m_TagString: Untagged
@@ -49,20 +48,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canMove: 1
   dead: 0
---- !u!114 &3430722392535518492
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8158989177163546642}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec277d0aa26542f4da2b6895ffe67356, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  leftBall: {fileID: 8158989177649040074}
-  rightBall: {fileID: 3970742107301793922}
 --- !u!114 &7007109222664781133
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -271,11 +256,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 72309cd35e55fd84e8958a221bd489ed, type: 3}
---- !u!1 &3970742107301793922 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5675028792923105741, guid: 72309cd35e55fd84e8958a221bd489ed, type: 3}
-  m_PrefabInstance: {fileID: 8780656386769123663}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3970742107301793923 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5675028792923105740, guid: 72309cd35e55fd84e8958a221bd489ed, type: 3}

@@ -9,7 +9,7 @@ public class SkinSettings : MonoBehaviour
 {
     public static SkinSettings current;
     private Material[] ropeMaterials;
-    private GameObject[] balls;
+    public GameObject[] balls {get; private set;}
 
     private Material currentRope;
     public GameObject leftBall;
@@ -20,7 +20,7 @@ public class SkinSettings : MonoBehaviour
     {
         current = this;
 
-        balls = GetAtPath<GameObject>("GameObjects/Heads");
+        balls = Resources.LoadAll<GameObject>("Heads");
         //ropeMaterials = GetAtPath<Material>("Materials/Ropes");
 
         // leftBall = Array.Find(balls, b => b.name == "ball1-left");
@@ -30,35 +30,18 @@ public class SkinSettings : MonoBehaviour
         
     }
 
-    public static T[] GetAtPath<T>(string path)
-    {
- 
-        ArrayList al = new ArrayList();
-        string[] fileEntries = Directory.GetFiles(Application.dataPath + "/" + path);
- 
-        foreach (string fileName in fileEntries)
-        {
-            int assetPathIndex = fileName.IndexOf("Assets");
-            string localPath = fileName.Substring(assetPathIndex);
- 
-            UnityEngine.Object t = AssetDatabase.LoadAssetAtPath(localPath, typeof(T));
- 
-            if (t != null)
-                al.Add(t);
-        }
-        T[] result = new T[al.Count];
-        for (int i = 0; i < al.Count; i++)
-            result[i] = (T)al[i];
- 
-        return result;
-    }
-
     public void setSkin(string skinName){
         GameObject leftBallOld = leftBall;
         GameObject rightBallOld = rightBall;
 
         leftBall = getBall(skinName+"-left");
         rightBall = getBall(skinName+"-right");
+    }
+
+    public void updateSkin(string skinName){
+        setSkin(skinName);
+        BallSpawner.current.DestroyTwoBalls();
+        BallSpawner.current.spawnBallsAtViewingPosition();
     }
 
     public void setSkinOld(string skinName){

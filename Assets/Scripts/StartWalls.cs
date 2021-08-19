@@ -26,12 +26,13 @@ public class StartWalls : MonoBehaviour
 
 
         if(currentHeight > 0 || verticalSpeed > 0){
-            // lerp between 0 and 0.02 based on height
-            verticalSpeed = Params.current.initialWallFallSpeed * Mathf.Pow(currentHeight/(Params.current.screenBounds.y * 0.7f),2);
-
-            float forcedMinSpeed =  (Mathf.Abs(gameObject.transform.position.y) / (height - Params.current.screenBounds.y - Params.current.screenBounds.y)) * Params.current.initialWallFallSpeed;
-
-            verticalSpeed = Mathf.Min(Mathf.Max(verticalSpeed,forcedMinSpeed),Params.current.initialWallFallSpeed) * Time.deltaTime;
+            verticalSpeed = MoveDown.currentSpeed();
+            float forcedMinSpeed =  (Mathf.Abs(gameObject.transform.position.y) / (height - Params.current.screenBounds.y - Params.current.screenBounds.y)) * (MoveDown.speed);
+            if(forcedMinSpeed < MoveDown.speed){
+                verticalSpeed = Mathf.Max(verticalSpeed,forcedMinSpeed) * Time.deltaTime;
+            }else{
+                verticalSpeed = verticalSpeed * Time.deltaTime;
+            }
         }
         if(verticalSpeed > 0){
             gameObject.transform.position = new Vector3(gameObject.transform.position.x,gameObject.transform.position.y-verticalSpeed,gameObject.transform.position.z);

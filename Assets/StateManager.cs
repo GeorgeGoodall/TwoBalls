@@ -67,6 +67,7 @@ public class StateManager : MonoBehaviour
     }
 
     public void startGame(){
+        BallSpawner.current.DestroyTwoBalls();
         BallSpawner.current.spawnTwoBalls();
         setupGame();
     }

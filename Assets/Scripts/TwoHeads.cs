@@ -172,8 +172,7 @@ public class TwoHeads : MonoBehaviour
             movement();
         }
 
-
-        if((head1.transform.position.y < -10 || head2.transform.position.y < -10) && !dead){
+        if((head1.transform.position.y < -Params.current.screenBounds.y-2 || head2.transform.position.y < -Params.current.screenBounds.y-2) && !dead){
             GameEvents.current.death();
             dead = true;
         }
