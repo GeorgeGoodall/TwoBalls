@@ -8,9 +8,10 @@ public class sandWall : WallBase, IWall
     Animator anim;
 
     Head attachedHead;
+    public GameObject wallShards;
     bool headAttached = false;
 
-    float distructionTime = 6f;
+    float distructionTime = 4f;
 
     // Start is called before the first frame update
     void Start()
@@ -32,6 +33,7 @@ public class sandWall : WallBase, IWall
             attachedHead.setBite(false);
             attachedHead.setCanGrab(false);
         }
+        Instantiate(wallShards,gameObject.transform.position,gameObject.transform.rotation);
         Destroy(gameObject);
     }
 

@@ -200,7 +200,7 @@ public class Head : MonoBehaviour
 
     void Update()
     {
-        if((transform.position.y < -Params.current.screenBounds.y - 1f || transform.position.x < -Params.current.screenBounds.x - 5f || transform.position.x > Params.current.screenBounds.x + 5f) && !dead){
+        if((transform.position.y < -Params.current.screenBounds.y - 2f || transform.position.x < -Params.current.screenBounds.x - 7f || transform.position.x > Params.current.screenBounds.x + 7f) && !dead){
             fall();
         }
     }

@@ -18,13 +18,15 @@ public class StateManager : MonoBehaviour
     public GameObject GameUI;
     public GameObject DeathUI;
     public GameObject SkinsPage;
+    public GameObject SettingsPage;
 
     public enum Page
     {
         MAIN_MENU,
         GAME_UI,
         DEATH_UI,
-        SKINS_PAGE
+        SKINS_PAGE,
+        SETTINGS_PAGE
     }
 
     private GameObject[] pageObjects;
@@ -41,7 +43,8 @@ public class StateManager : MonoBehaviour
             mainMenuUI,
             GameUI,
             DeathUI,
-            SkinsPage
+            SkinsPage,
+            SettingsPage
         };
         hideAll();
         mainMenuUI.SetActive(true);
@@ -96,6 +99,10 @@ public class StateManager : MonoBehaviour
 
     public void openSkins(){
         openPage(Page.SKINS_PAGE);
+    }
+
+    public void openSettings(){
+        openPage(Page.SETTINGS_PAGE);
     }
 
     // Update is called once per frame
