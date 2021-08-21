@@ -2,13 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DistroyAtBottom : MonoBehaviour{
+public class DestroyAtBottom : MonoBehaviour{
 
 
     Vector2 screenBounds;
     float blockHeight;
-
-    public bool distroyAtBottom = true;
 
     private void Start() {
         screenBounds = Params.current.screenBounds;

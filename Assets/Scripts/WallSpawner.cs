@@ -5,23 +5,51 @@ using UnityEngine;
 public class WallSpawner : MonoBehaviour
 { 
 
+
+    public enum WallTypes
+    {
+        Empty,
+        GRABBABLE,
+        SAND,
+        BLACKHOLE,
+        IMPASSABLE
+    }
+
     public static WallSpawner current;
 
-    public List<GameObject> walls;
+    public GameObject GrabbableBlock;
+    public GameObject SandBlock;
+    public GameObject BLACKHOLE;
+    public GameObject Impassable_block;
     public List<GameObject> wallCreated;
+
+    Dictionary<WallTypes,GameObject> walls;
 
     int columnCount = 5;
 
     int currentPosition = 0;
     public float blockHeight;
 
+    public Sprite wallImage;
+
+    WallImage currentWallImage;
+
     // Start is called before the first frame update
     void Start()
     {
 
-        blockHeight = walls[0].GetComponent<SpriteRenderer>().size.x * walls[0].gameObject.transform.lossyScale.x;
+        blockHeight = GrabbableBlock.GetComponent<SpriteRenderer>().size.x * GrabbableBlock.gameObject.transform.lossyScale.x;
         elapsedDistance = blockHeight;
         current = this;
+
+        currentWallImage = new WallImage(wallImage);
+
+        walls = new Dictionary<WallTypes, GameObject>(){    
+            { WallTypes.GRABBABLE, GrabbableBlock},
+            { WallTypes.SAND, SandBlock},
+            { WallTypes.BLACKHOLE, BLACKHOLE},
+            { WallTypes.IMPASSABLE, Impassable_block}
+        };
     }
 
     
@@ -35,7 +63,13 @@ public class WallSpawner : MonoBehaviour
     {
         if(running){
             elapsedDistance += Time.deltaTime * MoveDown.currentSpeed();
-            randomSpawn();
+            if(currentWallImage != null){
+                spawnFromWallImage();
+            }else{
+                randomSpawn();
+            }
+
+            // randomSpawn();
         }
         
 
@@ -50,56 +84,49 @@ public class WallSpawner : MonoBehaviour
 
     bool movingUp = true;
     // methods of selecting blocks
-    int columnIndexStairwell(){
-        if(currentPosition > columnCount-2){
-            movingUp = false;
-        }else if(currentPosition < 1){
-            movingUp = true;
-        }
 
-        if(movingUp){
-            currentPosition++;
-        }else{
-            currentPosition--;
-        }
-        
-        return currentPosition;
-    }
 
-    int columnIndexRandom(){
-        return Random.RandomRange(0,5);
-    }
-
-    void straightGrabbable(){
+    void spawnFromWallImage(){
         if(elapsedDistance >= blockHeight){
+            WallTypes[] row = currentWallImage.getCurrentRow();
 
-            for(int i = 0; i < columnCount; i++){
-                GameObject currentWall = Instantiate(
-                    walls[0],
-                    new Vector3(getColumnPosition(i),Params.current.screenBounds.y+(blockHeight/2),1f),
-                    Quaternion.EulerAngles(0,0,0)
-                );
+            for(int i = 0; i < row.Length; i++){
+
+                if(row[i] == WallTypes.Empty){
+                    continue;
+                }
+
+                GameObject currentWall = createWall(walls[row[i]],new Vector3(getColumnPosition(i),Params.current.screenBounds.y+(blockHeight/2),1f));
 
                 MoveDown md = currentWall.AddComponent<MoveDown>();
-                
-                DistroyAtBottom dab = currentWall.AddComponent<DistroyAtBottom>();
+                DestroyAtBottom dab = currentWall.AddComponent<DestroyAtBottom>();
             }
-
-
             elapsedDistance = 0f;
         }
     }
 
-
     int spawnedDeath = 0;
-
-
     void randomSpawn(){
         if(elapsedDistance >= blockHeight){
-            int[] indexs = new int[]{0,0,0,1,1,2,2};
+            WallTypes[] indexs = new WallTypes[]{
+                WallTypes.GRABBABLE,
+                WallTypes.GRABBABLE,
+                WallTypes.GRABBABLE,
+                WallTypes.SAND,
+                WallTypes.SAND,
+                WallTypes.SAND,
+                WallTypes.BLACKHOLE,
+            };
 
             if(spawnedDeath != 0){
-                indexs = new int[]{0,0,0,1,1};
+                indexs = new WallTypes[]{
+                    WallTypes.GRABBABLE,
+                    WallTypes.GRABBABLE,
+                    WallTypes.GRABBABLE,
+                    WallTypes.SAND,
+                    WallTypes.SAND,
+                    WallTypes.SAND,
+                };
                 spawnedDeath--;
             }
 
@@ -107,13 +134,13 @@ public class WallSpawner : MonoBehaviour
 
             int random = Random.RandomRange(0,indexs.Length);
 
-            if(indexs[random] == 2){
+            if(indexs[random] == WallTypes.BLACKHOLE){
                 spawnedDeath = 2;
             }
             
             GameObject wallToSpawn = walls[indexs[random]];
 
-            int columnIndex = columnIndexRandom();
+            int columnIndex = Random.RandomRange(0,5);
 
             GameObject currentWall = createWall(wallToSpawn,new Vector3(getColumnPosition(columnIndex),Params.current.screenBounds.y+(blockHeight/2),1f));
 
@@ -123,10 +150,11 @@ public class WallSpawner : MonoBehaviour
         }
     }
 
+
     GameObject startWalls;
 
     public void spawnStartBlocks(){
-        GameObject grabbableWall = walls[0];
+        GameObject grabbableWall = walls[WallTypes.GRABBABLE];
         GameObject row;
 
         int additionalRows = 4;

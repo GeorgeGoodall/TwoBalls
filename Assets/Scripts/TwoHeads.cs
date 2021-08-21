@@ -71,26 +71,6 @@ public class TwoHeads : MonoBehaviour
         }
     }
 
-    public void leftPress(){
-        LeftHeadAtStart = false;
-        if(head2.locked){
-            head1.addForce(getClockwiseVector(head1.position(),head2.position()) * movementForceRadial,ForceMode2D.Impulse);
-        }
-        if(head1.locked){
-            head2.addForce(getClockwiseVector(head2.position(),head1.position()) * movementForceRadial,ForceMode2D.Impulse);
-        }
-    }
-
-    public void rightPress(){
-        rightHeadAtStart = false;
-        if(head2.locked){
-            head1.addForce(getAnticlockwiseVector(head1.position(),head2.position()) * movementForceRadial,ForceMode2D.Impulse);
-        }
-        if(head1.locked){
-            head2.addForce(getAnticlockwiseVector(head2.position(),head1.position()) * movementForceRadial,ForceMode2D.Impulse);
-        }
-    }
-
     public void setLeftGrab(bool grab){
         if(canMove){
             head1.setBite(grab);
@@ -111,23 +91,9 @@ public class TwoHeads : MonoBehaviour
     bool calledStart = false;
 
     void movement(){
-        // if(Input.GetKeyDown(KeyCode.Q)){
-        //     GameEvents.current.action1Press();
-        // }
-        // if(Input.GetKeyDown(KeyCode.E)){
-        //    GameEvents.current.action2Press();
-        // }
-
         if(!calledStart && !rightHeadAtStart && !LeftHeadAtStart){
             calledStart = true;
             GameEvents.current.start();
-        }
-        
-        if(Input.GetKey(KeyCode.LeftArrow)){
-            GameEvents.current.leftPress();
-        }
-        if(Input.GetKey(KeyCode.RightArrow)){
-            GameEvents.current.rightPress();
         }
     }
 
@@ -154,11 +120,6 @@ public class TwoHeads : MonoBehaviour
          return v;
      }
 
-
-    void limit(){
-        
-    }
-
     public void death(){
         canMove = false;
         head1.setBite(false);
@@ -178,10 +139,6 @@ public class TwoHeads : MonoBehaviour
         }
     }
 
-    void resetAfterSomeTime(){
-        Invoke("reset", 2);
-    }
-
     public void reset(){
         head1.gameObject.transform.position = BallSpawner.current.getBallSpawnPosition(true);
         head2.gameObject.transform.position = BallSpawner.current.getBallSpawnPosition(false);
@@ -194,15 +151,9 @@ public class TwoHeads : MonoBehaviour
         canMove = true;
     }
 
-    public void updateRope(GameObject _rope){
-        rope = _rope.GetComponent<RopeHeads>();
-    }
-
-    private Head testHead;
 
     public void updateHeads(GameObject left, GameObject right){  
         head1 = left.GetComponent<Head>();
-        testHead = left.GetComponent<Head>();
         head2 = right.GetComponent<Head>();
     }
 }

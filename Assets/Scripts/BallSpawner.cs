@@ -60,6 +60,15 @@ public class BallSpawner : MonoBehaviour
             TwoBalls.transform
         );
 
+        LineRenderer lr = rope.GetComponent<LineRenderer>();
+
+        lr.textureMode = LineTextureMode.Tile;
+        lr.material = SkinSettings.current.ropeParams.material;
+        lr.startColor = SkinSettings.current.ropeParams.colour; 
+        lr.endColor = SkinSettings.current.ropeParams.colour;
+        lr.startWidth = SkinSettings.current.ropeParams.width;
+        lr.endWidth = SkinSettings.current.ropeParams.width;
+
         //rope.GetComponent<LineRenderer>().SetPositions(genRopePath(10,pos,ballSeperation,1.5f));
 
         //TwoHeads.current.updateRope(rope);
