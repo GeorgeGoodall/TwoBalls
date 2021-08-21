@@ -84,77 +84,58 @@ public class Head : MonoBehaviour
 
     public void addForce(Vector2 force, ForceMode2D forceMode){
         if(!locked){
-            foreach (RopeSegment segment in attachedRopeSegments)
-            {
-                segment.queueForce(force);
-            }
+           rb.AddForce(force,forceMode);
         }
-    }
-
-    public bool setPositionFromRope(Vector2 pos){
-        if(!locked || grabbed){
-            transform.position = pos;
-        }
-        return !locked;
     }
 
     public void setCanGrab(bool _canGrab){
         canGrab = _canGrab;
     }
 
-
     public void setBite(bool bite){
         
-            if(bite && canGrab && !locked && !dead){
-                locked = true;
-                grabbed = true;
-                if(anim != null){
-                    anim.SetBool("grabbing",true);
-                }
-                if(dropShadow != null){
-                    dropShadow.setLayer(-1);
-        }else{
-            Debug.LogError("Ball Object Doesn't Have A Drop Shadow");
-        }
-                grabbedObject = overObject;
+        if(bite && canGrab && !locked && !dead){
+            locked = true;
+            grabbed = true;
+            if(anim != null){
+                anim.SetBool("grabbing",true);
+            }
+            if(dropShadow != null){
+                dropShadow.setLayer(-1);
+            }else{
+                Debug.LogError("Ball Object Doesn't Have A Drop Shadow");
+            }
+            grabbedObject = overObject;
+            IWall wall = grabbedObject.GetComponent<IWall>();
+            if(wall != null){
+                wall.grab(this);
+            }
+            
+            deltaGrabbedObject =  gameObject.transform.position - grabbedObject.transform.position;
+
+        }else if(!bite && locked){
+            locked = false;
+            grabbed = false;
+            if(anim != null){
+                anim.SetBool("grabbing",false);
+            }
+            if(dropShadow != null){
+                dropShadow.setLayer(1);
+            }else{
+                Debug.LogError("Ball Object Doesn't Have A Drop Shadow");
+            }
+            if(grabbedObject != null){
                 IWall wall = grabbedObject.GetComponent<IWall>();
                 if(wall != null){
-                    wall.grab(this);
-                }
-                
-                deltaGrabbedObject =  gameObject.transform.position - grabbedObject.transform.position;
-
-            }else if(!bite && locked){
-                locked = false;
-                grabbed = false;
-                if(anim != null){
-                    anim.SetBool("grabbing",false);
-                }
-                if(dropShadow != null){
-                    dropShadow.setLayer(1);
-        }else{
-            Debug.LogError("Ball Object Doesn't Have A Drop Shadow");
-        }
-                if(grabbedObject != null){
-                    IWall wall = grabbedObject.GetComponent<IWall>();
-                    if(wall != null){
-                        wall.release();
-                    }
+                    wall.release();
                 }
             }
+        }
         
     } 
 
     public Vector2 position(){
-        try{
-            if(locked && grabbed){
-                return grabbedObject.transform.position + new Vector3(deltaGrabbedObject.x, deltaGrabbedObject.y, 0);
-            }else{
-                return transform.position;
-            }
-        }catch(System.Exception e){
-            return transform.position;
-        }
+        return transform.position;
     }
 
     public void death(){

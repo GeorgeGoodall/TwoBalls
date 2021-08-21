@@ -84,13 +84,29 @@ public class RopeHeads : MonoBehaviour
             this.ApplyConstraints();
         }
 
+        // apply forces to head
+        applyRopeForcesToHead();
+
     }
 
     private void ApplyConstraints(){
         RopeSegment firstSegment = this.ropeSegments[0];
-        if(!head1.setPositionFromRope(firstSegment.posNow)){
-            firstSegment.posNow = head1.position();
+
+        float dist = (head1.position() - firstSegment.posNow).magnitude;
+        float error = Mathf.Abs(dist - this.ropeSegLen);
+        Vector2 changeDir = Vector2.zero;
+
+        if(dist > this.ropeSegLen){
+            changeDir = (head1.position() - firstSegment.posNow).normalized;
+        }else if(dist < this.ropeSegLen){
+            changeDir = (firstSegment.posNow - head1.position()).normalized;
         }
+
+        Vector2 changeAmount = changeDir * error;
+
+        
+        head1.transform.position -= new Vector3(changeAmount.x * 0.5f,changeAmount.y * 0.5f,0);
+        firstSegment.posNow += changeAmount * 0.5f;
         this.ropeSegments[0] = firstSegment;
 
 
@@ -98,9 +114,9 @@ public class RopeHeads : MonoBehaviour
             RopeSegment firstSeg = this.ropeSegments[i];
             RopeSegment secondSeg = this.ropeSegments[i+1];
 
-            float dist = (firstSeg.posNow - secondSeg.posNow).magnitude;
-            float error = Mathf.Abs(dist - this.ropeSegLen);
-            Vector2 changeDir = Vector2.zero;
+            dist = (firstSeg.posNow - secondSeg.posNow).magnitude;
+            error = Mathf.Abs(dist - this.ropeSegLen);
+            changeDir = Vector2.zero;
 
             if(dist > this.ropeSegLen){
                 changeDir = (firstSeg.posNow - secondSeg.posNow).normalized;
@@ -108,33 +124,42 @@ public class RopeHeads : MonoBehaviour
                 changeDir = (secondSeg.posNow - firstSeg.posNow).normalized;
             }
 
-            Vector2 changeAmount = changeDir * error;
+            changeAmount = changeDir * error;
 
-            // if(i == 0){
-            //     secondSeg.posNow += changeAmount;
-            //     this.ropeSegments[i+1] = secondSeg;
-            // }
-            // else if(i == this.totalSegments-2){
-            //     firstSeg.posNow -= changeAmount * 0.5f;
-            //     this.ropeSegments[i] = firstSeg;
-                
-            // }
-            // else{
-                firstSeg.posNow -= changeAmount * 0.5f;
-                this.ropeSegments[i] = firstSeg;
-                secondSeg.posNow += changeAmount * 0.5f;
-                this.ropeSegments[i+1] = secondSeg;
-            // }
+         
+            firstSeg.posNow -= changeAmount * 0.5f;
+            this.ropeSegments[i] = firstSeg;
+            secondSeg.posNow += changeAmount * 0.5f;
+            this.ropeSegments[i+1] = secondSeg;
+            
         }
+
+        RopeSegment lastSegment = this.ropeSegments[this.ropeSegments.Count-1];
+
+        dist = (head2.position() - lastSegment.posNow).magnitude;
+        error = Mathf.Abs(dist - this.ropeSegLen);
+        changeDir = Vector2.zero;
+
+        if(dist > this.ropeSegLen){
+            changeDir = (head2.position() - lastSegment.posNow).normalized;
+        }else if(dist < this.ropeSegLen){
+            changeDir = (lastSegment.posNow - head2.position()).normalized;
+        }
+
+        changeAmount = changeDir * error;
 
         
-        RopeSegment lastSegment = this.ropeSegments[this.totalSegments-1];
-        if(!head2.setPositionFromRope(lastSegment.posNow)){
-            lastSegment.posNow = head2.position();
-        }
-        this.ropeSegments[this.totalSegments-1] = lastSegment;
+        head1.transform.position -= new Vector3(changeAmount.x * 0.5f,changeAmount.y * 0.5f,0);
+        lastSegment.posNow += changeAmount * 0.5f;
+        this.ropeSegments[this.ropeSegments.Count-1] = lastSegment;
     }
 
+
+    private void applyRopeForcesToHead(){
+        if((this.ropeSegments[0].posNow - this.ropeSegments[this.ropeSegments.Count].posNow).magnitude > this.ropeSegLen*this.ropeSegments.Count){
+
+        }
+    }
     private void DrawRope()
     {
         float lineWidth = this.lineWidth;
