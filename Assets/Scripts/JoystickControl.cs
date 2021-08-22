@@ -23,25 +23,14 @@ public class JoystickControl : MonoBehaviour
     void Update()
     {
         if(leftJoystick.pointerDown){
-            TwoHeads.current.setLeftGrab(false);
-            //TwoHeads.current.applyRadialForceToLeftHead(leftJoystick.Horizontal);
-            TwoHeads.current.applyVerticalForceToLeftHead(leftJoystick.Vertical);
-            TwoHeads.current.applyHorizontalForceToLeftHead(leftJoystick.Horizontal);
-        }
-        else{
-            TwoHeads.current.setLeftGrab(true);
+            TwoBalls2.current.applyVerticalForceToLeftHead(leftJoystick.Vertical);
+            TwoBalls2.current.applyHorizontalForceToLeftHead(leftJoystick.Horizontal);
         }
 
         if(rightJoystick.pointerDown){
-            TwoHeads.current.setRightGrab(false);
-            //TwoHeads.current.applyRadialForceToRightHead(rightJoystick.Horizontal);
-            TwoHeads.current.applyVerticalForceToRightHead(rightJoystick.Vertical);
-            TwoHeads.current.applyHorizontalForceToRightHead(rightJoystick.Horizontal);
+            TwoBalls2.current.applyVerticalForceToRightHead(rightJoystick.Vertical);
+            TwoBalls2.current.applyHorizontalForceToRightHead(rightJoystick.Horizontal);
         }
-        else{
-            TwoHeads.current.setRightGrab(true);
-        }
-        // Update is called once per frame
     }
 
     public void reset(){

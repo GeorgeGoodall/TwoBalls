@@ -9172,6 +9172,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: impassableWall
       objectReference: {fileID: 0}
+    - target: {fileID: 1121114912522900211, guid: 7d6e9be4d2429254dbc6267a17c91879, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1121114912522900222, guid: 7d6e9be4d2429254dbc6267a17c91879, type: 3}
       propertyPath: m_RootOrder
       value: 10
@@ -9216,7 +9220,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6792653720583384716, guid: 7d6e9be4d2429254dbc6267a17c91879, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 7d6e9be4d2429254dbc6267a17c91879, type: 3}
 --- !u!1001 &6878970187284461850
 PrefabInstance:
