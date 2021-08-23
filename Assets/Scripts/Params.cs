@@ -16,7 +16,17 @@ public class Params : MonoBehaviour {
 
         current = this;
 
-        screenBounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Camera.main.transform.position.z));    
-        
+        screenBounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Camera.main.transform.position.z));
+        //screenBounds = new Vector3(Camera.main.orthographicSize,Camera.main.orthographicSize*Camera.main.aspect,0);  
     }
+
+    public void updateScreenBounds(){
+        screenBounds = new Vector3(Camera.main.orthographicSize,Camera.main.orthographicSize*Camera.main.aspect,0);
+    }
+    public void updateScreenBounds(Vector3 newSize){
+        screenBounds = newSize;
+    }
+
+   
+
 }

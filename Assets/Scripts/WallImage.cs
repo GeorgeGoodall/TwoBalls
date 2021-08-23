@@ -5,9 +5,9 @@ using UnityEngine;
 public class WallImage
 { 
     Sprite image;
-
-    int rowWidth = 5;
+    public int rowWidth = 5;
     int currentRow = 0;
+
 
     public static Dictionary<Color, WallSpawner.WallTypes> colorToWallType {get; private set;} = new Dictionary<Color, WallSpawner.WallTypes>(){
         {new Color(0,1,0,1),WallSpawner.WallTypes.GRABBABLE},
@@ -16,9 +16,22 @@ public class WallImage
         {new Color(1,0,0,1),WallSpawner.WallTypes.IMPASSABLE}
     };
 
+    public bool hasFinished(){
+        return currentRow >= image.texture.height;
+    }
 
     public WallImage(Sprite _image){
         image = _image;
+        rowWidth = image.texture.width;
+        
+    }
+
+    public int getHeight(){
+        return image.texture.height;
+    }
+
+    public void updateViewWidth(){
+        Camera.main.GetComponent<CameraScreenResolution>().setWidth(rowWidth);
     }
 
     public WallSpawner.WallTypes[] getRow(int rowNumber){
