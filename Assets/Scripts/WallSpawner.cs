@@ -168,6 +168,7 @@ public class WallSpawner : MonoBehaviour
             Destroy(wall);
         }
         wallCreated.Clear();
+        currentWallImageIndex = 0;
         //running = false;
     }
 

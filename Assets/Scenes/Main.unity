@@ -4846,12 +4846,16 @@ MonoBehaviour:
   wallImages:
   - {fileID: 21300000, guid: e82c49d9caa9bfb4bbbef6c0504513eb, type: 3}
   - {fileID: 21300000, guid: fc6f16b184e5c254a8a13bd6e9b6aa1c, type: 3}
-  - {fileID: 21300000, guid: 3404bdbd92efb034e9da4b2c98e708d1, type: 3}
-  - {fileID: 21300000, guid: fc6f16b184e5c254a8a13bd6e9b6aa1c, type: 3}
-  - {fileID: 21300000, guid: 3404bdbd92efb034e9da4b2c98e708d1, type: 3}
-  - {fileID: 21300000, guid: fc6f16b184e5c254a8a13bd6e9b6aa1c, type: 3}
+  - {fileID: 21300000, guid: 3324f631baabab747b04c1cf776a7ce1, type: 3}
+  - {fileID: 21300000, guid: 82d8092083b9e114aa69aaeecd0f5d6e, type: 3}
+  - {fileID: 21300000, guid: 381640cb8ddc76f41acc5dd0768f424e, type: 3}
+  - {fileID: 21300000, guid: 887e05483a4053f43a829ef8abd482f3, type: 3}
+  - {fileID: 21300000, guid: 136ad5ceedf7afc46bc7537ec00be65a, type: 3}
+  - {fileID: 21300000, guid: 887e05483a4053f43a829ef8abd482f3, type: 3}
+  - {fileID: 21300000, guid: 887e05483a4053f43a829ef8abd482f3, type: 3}
+  - {fileID: 21300000, guid: 887e05483a4053f43a829ef8abd482f3, type: 3}
   blocksToZoomInAdvance: 3
-  ignoreCameraChangeWithingBlockCount: 5
+  ignoreCameraChangeWithinBlockCount: 5
   halfScreenHeightBlocks: 0
   running: 0
   slowRowsCount: 10
