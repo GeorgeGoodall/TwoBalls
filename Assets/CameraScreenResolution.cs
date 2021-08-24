@@ -19,6 +19,10 @@ public class CameraScreenResolution : MonoBehaviour
 
 
     public void setWidth(float newWidth){
+        if(newWidth < 5){
+            newWidth = 5;
+        }
+
         width = newWidth;
         elapsedTime = 0f;
         Params.current.updateScreenBounds(new Vector3(width,width / Camera.main.aspect,0));

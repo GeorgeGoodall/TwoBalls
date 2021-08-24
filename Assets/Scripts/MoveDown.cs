@@ -13,8 +13,10 @@ public class MoveDown : MonoBehaviour{
 
     private static float maxDeltaHeight = 0f;
 
+    private static float additionalSpeedModifier = 8;
+
     public static float currentSpeed(){
-        return speed + getAdditionalSpeed();
+        return speed + getAdditionalSpeed() * additionalSpeedModifier;
     }
 
     public static float getAdditionalSpeed(){
@@ -22,14 +24,18 @@ public class MoveDown : MonoBehaviour{
             float currentHeight = 0;
             float speedAdditional = 0;
             if(TwoHeads.current.head1 != null && TwoHeads.current.head2 != null){
-                currentHeight = Mathf.Max(TwoHeads.current.head1.position().y, TwoHeads.current.head2.position().y);
+                currentHeight = TwoHeads.current.getHighestBall();
 
                 float deltaHeight = (currentHeight - (Params.current.screenBounds.y * percentOfScreenToAddAdditional)) / (Params.current.screenBounds.y * (1f-percentOfScreenToAddAdditional));
 
-                deltaHeight = Mathf.Min(1,deltaHeight);
 
                 if(deltaHeight > 0){
-                    speedAdditional = (-1/((0.75f*deltaHeight)-1))-1;
+                    //deltaHeight = Mathf.Min(1,deltaHeight);
+                    //speedAdditional = (-1/((0.85f*deltaHeight)-1))-1;
+
+                    //speedAdditional = 4*Mathf.Pow(deltaHeight,2);
+
+                    speedAdditional = deltaHeight;
                 }else{
                     speedAdditional = 0;
                 }
@@ -44,7 +50,7 @@ public class MoveDown : MonoBehaviour{
 
     void LateUpdate()
     {
-        transform.position += Vector3.down * (speed + getAdditionalSpeed()) * Time.deltaTime;
+        transform.position += Vector3.down * currentSpeed() * Time.deltaTime;
     }
 
 

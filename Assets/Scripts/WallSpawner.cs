@@ -104,16 +104,9 @@ public class WallSpawner : MonoBehaviour
         if(currentWallImage.hasFinished()){
             currentWallImageIndex++;
 
-            int oldWallWidth = currentWallImage.rowWidth;
             currentWallImage = new WallImage(wallImages[currentWallImageIndex]);
-            int newWallWidth = currentWallImage.rowWidth;
             CallFunctionAtHeight.AfterDistanceDelegate e = currentWallImage.updateViewWidth;
             int heightForEvent = rowsSpawned;
-            //int heightForEvent = startBlocksHeight+rowsSpawned-blocksToZoomInAdvance;
-            // if(oldWallWidth > newWallWidth){
-            //     //heightForEvent = startBlocksHeight+rowsSpawned+(int)Mathf.Ceil((Params.current.screenBounds.y/2)/blockHeight)*2+blocksToZoomInAdvance;
-            //     heightForEvent = startBlocksHeight+rowsSpawned+blocksToZoomInAdvance;
-            // }
 
             CallFunctionAtHeight.addEvent(heightForEvent,e);
             spawnFromWallImageAt(height);
@@ -135,6 +128,8 @@ public class WallSpawner : MonoBehaviour
 
 
     public void start(){
+        currentWallImage = new WallImage(wallImages[currentWallImageIndex]);
+        currentWallImage.updateViewWidth();
         float maxHeight = 0f;
         for (int i = 1; i <= startBlocksHeight; i++)
         {
@@ -190,13 +185,13 @@ public class WallSpawner : MonoBehaviour
     void LateUpdate()
     {
         
-        int additionalRowsSpawned = rowsSpawned - startBlocksHeight - (int)Mathf.Floor(halfScreenHeightBlocks);
+        int additionalRowsSpawned = rowsSpawned - startBlocksHeight;
 
         if(additionalRowsSpawned < slowRowsCount && running){
 
             float currentHeight = 0;
             if(TwoHeads.current.head1 != null && TwoHeads.current.head2 != null){
-                currentHeight = TwoHeads.current.height();   
+                currentHeight = TwoHeads.current.getHighestBall();   
             }
 
             if(currentHeight > 0 || MoveDown.speed > 0){ 
