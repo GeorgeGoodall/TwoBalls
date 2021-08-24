@@ -7,6 +7,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1186416412251480786, guid: 7ee0ebd462ef4ba458b457e9acf0e4dc, type: 3}
+      propertyPath: ShadowMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 617d5711e4974d84cb04d60f4723ab45, type: 2}
     - target: {fileID: 2923357659355236741, guid: 7ee0ebd462ef4ba458b457e9acf0e4dc, type: 3}
       propertyPath: m_Color.b
       value: 0.98039216
@@ -65,7 +69,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2923357659355236763, guid: 7ee0ebd462ef4ba458b457e9acf0e4dc, type: 3}
       propertyPath: m_Name
-      value: Ice Climber-right
+      value: Ice Climbers-right
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7ee0ebd462ef4ba458b457e9acf0e4dc, type: 3}

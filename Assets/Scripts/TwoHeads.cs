@@ -133,7 +133,7 @@ public class TwoHeads : MonoBehaviour
             movement();
         }
 
-        if((head1.transform.position.y < -Params.current.screenBounds.y-2 || head2.transform.position.y < -Params.current.screenBounds.y-2) && !dead){
+        if((head1.transform.position.y < -Params.current.screenBounds.y-5 || head2.transform.position.y < -Params.current.screenBounds.y-5) && !dead){
             GameEvents.current.death();
             dead = true;
         }
@@ -151,6 +151,13 @@ public class TwoHeads : MonoBehaviour
         canMove = true;
     }
 
+    public float height(){
+        return (head1.position().y + head2.position().y)/2;
+    }
+
+    public float getHighestBall() => Mathf.Max(head1.position().y,head2.position().y);
+    public float getCurrentBlock() => WallSpawner.current.getBlockHeightFromWorldPosition(getHighestBall());
+    
 
     public void updateHeads(GameObject left, GameObject right){  
         head1 = left.GetComponent<Head>();

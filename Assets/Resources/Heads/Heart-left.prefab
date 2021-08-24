@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4861255340126535119}
   - component: {fileID: 4861255340126535116}
   - component: {fileID: 4585062571712123918}
+  - component: {fileID: 7476243013957555941}
   m_Layer: 0
   m_Name: Heart-left
   m_TagString: Untagged
@@ -137,6 +138,21 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1
+--- !u!114 &7476243013957555941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4861255340126535120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 253c0d7015d384f41a3106b162efbb4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShadowMaterial: {fileID: 2100000, guid: 617d5711e4974d84cb04d60f4723ab45, type: 2}
+  shadowColor: {r: 0, g: 0, b: 0, a: 1}
+  sortingOrder: 0
 --- !u!1 &6853460670170398820
 GameObject:
   m_ObjectHideFlags: 0

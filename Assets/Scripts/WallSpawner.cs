@@ -45,7 +45,7 @@ public class WallSpawner : MonoBehaviour
     int rowsSpawned = 0;
 
     [HideInInspector]
-    public float halfScreenHeightBlocks;
+    public int halfScreenHeightBlocks;
     [HideInInspector]
     public bool running = false;
 
@@ -70,7 +70,7 @@ public class WallSpawner : MonoBehaviour
             { WallTypes.IMPASSABLE, Impassable_block}
         };
 
-        halfScreenHeightBlocks = (Params.current.screenBounds.y/2)/blockHeight;
+        halfScreenHeightBlocks = (int)Mathf.Ceil((Params.current.screenBounds.y)/blockHeight);
     }
 
     
@@ -108,10 +108,12 @@ public class WallSpawner : MonoBehaviour
             currentWallImage = new WallImage(wallImages[currentWallImageIndex]);
             int newWallWidth = currentWallImage.rowWidth;
             CallFunctionAtHeight.AfterDistanceDelegate e = currentWallImage.updateViewWidth;
-            int heightForEvent = startBlocksHeight+rowsSpawned-blocksToZoomInAdvance;
-            if(oldWallWidth > newWallWidth){
-                heightForEvent = startBlocksHeight+rowsSpawned+(int)Mathf.Ceil((Params.current.screenBounds.y/2)/blockHeight)*2+blocksToZoomInAdvance;
-            }
+            int heightForEvent = rowsSpawned;
+            //int heightForEvent = startBlocksHeight+rowsSpawned-blocksToZoomInAdvance;
+            // if(oldWallWidth > newWallWidth){
+            //     //heightForEvent = startBlocksHeight+rowsSpawned+(int)Mathf.Ceil((Params.current.screenBounds.y/2)/blockHeight)*2+blocksToZoomInAdvance;
+            //     heightForEvent = startBlocksHeight+rowsSpawned+blocksToZoomInAdvance;
+            // }
 
             CallFunctionAtHeight.addEvent(heightForEvent,e);
             spawnFromWallImageAt(height);
@@ -133,12 +135,10 @@ public class WallSpawner : MonoBehaviour
 
 
     public void start(){
-
-        
         float maxHeight = 0f;
-        for (int i = 0; i < startBlocksHeight + halfScreenHeightBlocks; i++)
+        for (int i = 1; i <= startBlocksHeight; i++)
         {
-            maxHeight = blockHeight * i-halfScreenHeightBlocks;
+            maxHeight = blockHeight * (i-halfScreenHeightBlocks);
             spawnFromWallImageAt(maxHeight);
         }
         spawnHeight = maxHeight;
@@ -169,7 +169,15 @@ public class WallSpawner : MonoBehaviour
         }
         wallCreated.Clear();
         currentWallImageIndex = 0;
+        currentWallImage = new WallImage(wallImages[currentWallImageIndex]);
         //running = false;
+    }
+
+    public int getBlockHeightFromWorldPosition(float height){
+        // blocks spawned - spawn height + halfScreenHeightBlocks + (position/block height)
+        int rowsPassedCenter = rowsSpawned - startBlocksHeight + halfScreenHeightBlocks;
+        int rowsDeltaCentre = (int)Mathf.Ceil(height/blockHeight);
+        return rowsPassedCenter+rowsDeltaCentre;
     }
 
 
@@ -188,7 +196,7 @@ public class WallSpawner : MonoBehaviour
 
             float currentHeight = 0;
             if(TwoHeads.current.head1 != null && TwoHeads.current.head2 != null){
-                currentHeight = (TwoHeads.current.head1.position().y + TwoHeads.current.head2.position().y)/2;   
+                currentHeight = TwoHeads.current.height();   
             }
 
             if(currentHeight > 0 || MoveDown.speed > 0){ 
@@ -234,14 +242,26 @@ public static class CallFunctionAtHeight{
     public static void checkEvents(int rowsSpawned){
 
         lock(events){
-            int halfScreenHeightInBlocks = (int)Mathf.Ceil((Params.current.screenBounds.y/2)/WallSpawner.current.blockHeight);
+            int halfScreenHeightInBlocks = (int)Mathf.Ceil(Params.current.screenBounds.y/WallSpawner.current.blockHeight);
 
             foreach (var item in events)
             {
-                if(item.Key <= rowsSpawned + halfScreenHeightInBlocks){
+                // if(item.Key <= rowsSpawned + halfScreenHeightInBlocks){
+                //     item.Value();
+                //     events.Remove(item.Key);
+                // }
+
+                // if(item.Key <= rowsSpawned - halfScreenHeightInBlocks + Mathf.Ceil((TwoHeads.current.height()+Params.current.screenBounds.y)/WallSpawner.current.blockHeight)){
+                //     item.Value();
+                //     events.Remove(item.Key);
+                // }
+
+                if(item.Key <= TwoHeads.current.getCurrentBlock()){
                     item.Value();
                     events.Remove(item.Key);
                 }
+
+
             }
         }
     }

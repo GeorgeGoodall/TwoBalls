@@ -4879,6 +4879,7 @@ GameObject:
   - component: {fileID: 2234090626948475352}
   - component: {fileID: 1380860036744324009}
   - component: {fileID: 6484641534679912117}
+  - component: {fileID: 6040734284671816018}
   m_Layer: 0
   m_Name: plunger-left
   m_TagString: Untagged
@@ -5036,6 +5037,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShadowMaterial: {fileID: 2100000, guid: edd3d4ce5db6d834ca25e8aad39d1033, type: 2}
   shadowColor: {r: 0, g: 0, b: 0, a: 0}
+  sortingOrder: 0
+--- !u!114 &6040734284671816018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7194177640786968582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 253c0d7015d384f41a3106b162efbb4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShadowMaterial: {fileID: 2100000, guid: 617d5711e4974d84cb04d60f4723ab45, type: 2}
+  shadowColor: {r: 0, g: 0, b: 0, a: 1}
+  sortingOrder: 0
 --- !u!1 &9204264313399950770
 GameObject:
   m_ObjectHideFlags: 0

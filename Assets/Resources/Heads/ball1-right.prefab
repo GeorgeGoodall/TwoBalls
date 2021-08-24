@@ -151,7 +151,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShadowMaterial: {fileID: 2100000, guid: edd3d4ce5db6d834ca25e8aad39d1033, type: 2}
-  shadowColor: {r: 0, g: 0, b: 0, a: 0}
+  shadowColor: {r: 0, g: 0, b: 0, a: 1}
+  sortingOrder: 0
 --- !u!1 &5956862956290692217
 GameObject:
   m_ObjectHideFlags: 0

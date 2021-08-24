@@ -9742,6 +9742,7 @@ GameObject:
   - component: {fileID: 8191057513945914020}
   - component: {fileID: 971568662864147302}
   - component: {fileID: 3543629881283282226}
+  - component: {fileID: 4466283770316248717}
   m_Layer: 0
   m_Name: Crab Hands-left
   m_TagString: Untagged
@@ -9885,3 +9886,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &4466283770316248717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8191057513945914040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 253c0d7015d384f41a3106b162efbb4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShadowMaterial: {fileID: 2100000, guid: 617d5711e4974d84cb04d60f4723ab45, type: 2}
+  shadowColor: {r: 0, g: 0, b: 0, a: 1}
+  sortingOrder: 0
