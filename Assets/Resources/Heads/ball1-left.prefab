@@ -4877,6 +4877,7 @@ GameObject:
   - component: {fileID: 2043660329478610807}
   - component: {fileID: 2043660329478610804}
   - component: {fileID: 6956730851493164726}
+  - component: {fileID: 4140504744952671303}
   m_Layer: 0
   m_Name: ball1-left
   m_TagString: Untagged
@@ -5001,6 +5002,21 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1
+--- !u!114 &4140504744952671303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2043660329478610792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 253c0d7015d384f41a3106b162efbb4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShadowMaterial: {fileID: 2100000, guid: 617d5711e4974d84cb04d60f4723ab45, type: 2}
+  shadowColor: {r: 0, g: 0, b: 0, a: 1}
+  sortingOrder: 0
 --- !u!1 &3945493365549865298
 GameObject:
   m_ObjectHideFlags: 0

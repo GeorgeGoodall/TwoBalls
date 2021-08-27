@@ -16,7 +16,7 @@ public class DestroyAtBottom : MonoBehaviour{
     void Update()
     {
 
-        if(transform.position.y < -screenBounds.y - blockHeight){
+        if(transform.position.y < -Params.current.screenBounds.y - blockHeight * 4){
             Destroy(gameObject);
         }
     }

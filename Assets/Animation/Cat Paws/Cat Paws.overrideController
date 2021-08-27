@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Cat Paws
+  m_Controller: {fileID: 9100000, guid: 8fa70f15f3478a6429c4a302a8e2514c, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 0f90c084f0574a3409a20c61c0f17c2e, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: f888af08aa914194bb5c0666d8a0f305, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 64f417a12e43fac439cf95c7b3a66456, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: f465ee0fd57d091438ea777f5ada4788, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 4105970bee1468549bcc5d9c743fc5fd, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 23f759b1147f5a1419a2d5640e7bd657, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 21997591353b3684c89105bd91898e2f, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: d76e4a630df761b4c9f4645b8dfc51a5, type: 2}

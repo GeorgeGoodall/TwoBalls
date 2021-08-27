@@ -131,7 +131,7 @@ public class Head : MonoBehaviour
                     anim.SetBool("grabbing",false);
                 }
                 if(dropShadow != null){
-                    dropShadow.setLayer(1);
+                    dropShadow.setLayer(0);
         }else{
             Debug.LogError("Ball Object Doesn't Have A Drop Shadow");
         }
@@ -200,7 +200,7 @@ public class Head : MonoBehaviour
 
     void Update()
     {
-        if((transform.position.y < -Params.current.screenBounds.y - 2f || transform.position.x < -Params.current.screenBounds.x - 7f || transform.position.x > Params.current.screenBounds.x + 7f) && !dead){
+        if((transform.position.y < -Params.current.screenBounds.y - 5f || transform.position.x < -Params.current.screenBounds.x - 9f || transform.position.x > Params.current.screenBounds.x + 9f) && !dead){
             fall();
         }
     }

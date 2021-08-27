@@ -4879,6 +4879,7 @@ GameObject:
   - component: {fileID: 2627469098825887401}
   - component: {fileID: 8859740139529462942}
   - component: {fileID: 9106655761810544922}
+  - component: {fileID: 2369516334655026952}
   m_Layer: 0
   m_Name: tentacle-left
   m_TagString: Untagged
@@ -5017,6 +5018,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShadowMaterial: {fileID: 2100000, guid: edd3d4ce5db6d834ca25e8aad39d1033, type: 2}
   shadowColor: {r: 0, g: 0, b: 0, a: 0}
+  sortingOrder: 0
 --- !u!95 &9106655761810544922
 Animator:
   serializedVersion: 3
@@ -5036,6 +5038,21 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &2369516334655026952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6386503246033471351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 253c0d7015d384f41a3106b162efbb4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShadowMaterial: {fileID: 2100000, guid: 617d5711e4974d84cb04d60f4723ab45, type: 2}
+  shadowColor: {r: 0, g: 0, b: 0, a: 1}
+  sortingOrder: 0
 --- !u!1 &8231689167627059533
 GameObject:
   m_ObjectHideFlags: 0

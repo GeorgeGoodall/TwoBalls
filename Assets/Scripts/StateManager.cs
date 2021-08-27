@@ -83,7 +83,7 @@ public class StateManager : MonoBehaviour
     private void setupGame(){
         WallSpawner.current.reset();
         CameraAnimation.current.playAnimation();
-        WallSpawner.current.spawnStartBlocks();
+        WallSpawner.current.start();
         openPage(Page.GAME_UI);
         JoystickControl.current.reset();
     }

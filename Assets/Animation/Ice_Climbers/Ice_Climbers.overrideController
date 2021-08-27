@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Ice_Climbers
+  m_Controller: {fileID: 9100000, guid: 8fa70f15f3478a6429c4a302a8e2514c, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 0f90c084f0574a3409a20c61c0f17c2e, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 941d034dd0893624f9a8b7f2f2862299, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 64f417a12e43fac439cf95c7b3a66456, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 35b9f8fe7b4e7254d95703e5c6db16ad, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 4105970bee1468549bcc5d9c743fc5fd, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 0c43896a5a31f4c45b66db8a12044952, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 21997591353b3684c89105bd91898e2f, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 9acab5201952b554889108c64d6c612d, type: 2}

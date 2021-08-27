@@ -3,7 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer))]
 public class DropShadow : MonoBehaviour
 {
-    private Vector2 ShadowOffset = new Vector2(0.2f,-0.2f);
+    private Vector2 ShadowOffset = new Vector2(0.05f,-0.05f);
     SpriteRenderer casterSR;
     SpriteRenderer shadowSR;
 
@@ -11,7 +11,9 @@ public class DropShadow : MonoBehaviour
     private Transform transShadow;
 
     public Material ShadowMaterial;
-    public Color shadowColor;
+    public Color shadowColor = new Color(0,0,0,1);
+
+    public int sortingOrder;
 
     void Start()
     {
@@ -27,6 +29,7 @@ public class DropShadow : MonoBehaviour
         shadowSR.color = shadowColor;
         shadowSR.sortingLayerName = casterSR.sortingLayerName;
         shadowSR.sortingOrder = casterSR.sortingOrder - 1;
+        sortingOrder = casterSR.sortingOrder - 1;
         
     }
 
@@ -49,7 +52,7 @@ public class DropShadow : MonoBehaviour
     }
 
     public void setLayer(int order){
-        shadowSR.sortingOrder = order;
+        shadowSR.sortingOrder = sortingOrder + order;
     }
 
     public void setActive(bool active){
