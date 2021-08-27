@@ -406,6 +406,30 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6878970186578964833, guid: 59a2a7f67a2c3964190d664b8fce7970, type: 3}
   m_PrefabInstance: {fileID: 300404455}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &379439270 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4737484989855346697, guid: b23e2b2a95811a540b86d9c09d933884, type: 3}
+  m_PrefabInstance: {fileID: 4737484989380156774}
+  m_PrefabAsset: {fileID: 0}
+--- !u!232 &379439276
+DistanceJoint2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 379439270}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_EnableCollision: 0
+  m_ConnectedRigidBody: {fileID: 1089769572}
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_AutoConfigureConnectedAnchor: 0
+  m_Anchor: {x: 0, y: 0}
+  m_ConnectedAnchor: {x: 0, y: 0}
+  m_AutoConfigureDistance: 0
+  m_Distance: 10
+  m_MaxDistanceOnly: 1
 --- !u!1001 &406799065
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -12,6 +12,13 @@ public class Rope : MonoBehaviour
 
     private float ropeLimit = 180;
 
+    TwoBalls2 twoHeads;
+
+    Rigidbody2D head1;
+    Rigidbody2D head2;
+
+    float segmentSize;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -19,6 +26,14 @@ public class Rope : MonoBehaviour
         Physics2D.IgnoreLayerCollision(7,8);
         Physics2D.IgnoreLayerCollision(8,8);
         GenerateRope();
+
+        twoHeads = gameObject.transform.parent.GetComponent<TwoBalls2>();
+
+        head1 = twoHeads.leftHeadRb;
+        head2 = twoHeads.rightHeadRb;
+
+        segmentSize = prefabRopeSegs[0].GetComponent<SpriteRenderer>().bounds.size.y / prefabRopeSegs[0].transform.lossyScale.y;
+        
     }
 
     void GenerateRope(){
@@ -32,7 +47,8 @@ public class Rope : MonoBehaviour
             HingeJoint2D hj = newSeg.GetComponent<HingeJoint2D>();
             hj.connectedBody = prevBody;
             if(i > 0){
-                float spriteBottom = prevBody.GetComponent<SpriteRenderer>().bounds.size.y;
+                float spriteBottom = prevBody.GetComponent<SpriteRenderer>().bounds.size.y / prevBody.transform.lossyScale.y;
+                segmentSize = spriteBottom;
                 hj.connectedAnchor = new Vector2(0,spriteBottom*-1);
             }
             // JointAngleLimits2D limits = hj.limits;
