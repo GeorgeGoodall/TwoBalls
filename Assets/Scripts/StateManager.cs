@@ -77,7 +77,7 @@ public class StateManager : MonoBehaviour
 
     public void TryAgain(){
         setupGame();
-        TwoHeads.current.reset();
+        //TwoHeads.current.reset();
     }
 
     private void setupGame(){
@@ -86,6 +86,8 @@ public class StateManager : MonoBehaviour
         WallSpawner.current.start();
         openPage(Page.GAME_UI);
         JoystickControl.current.reset();
+        MoveDown.speed = 0f;
+        TwoHeads.current.reset();
     }
 
     public void showGameoverScreen(){

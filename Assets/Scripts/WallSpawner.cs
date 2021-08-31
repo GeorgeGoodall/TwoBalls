@@ -119,7 +119,7 @@ public class WallSpawner : MonoBehaviour
                 }
                 GameObject currentWall = createWall(walls[row[i]],new Vector3(getColumnPosition(i),height,1f));
                 MoveDown md = currentWall.AddComponent<MoveDown>();
-                DestroyAtBottom dab = currentWall.AddComponent<DestroyAtBottom>();
+                md.row = rowsSpawned;
             }
             elapsedDistance = 0f;
             rowsSpawned++;
@@ -165,6 +165,7 @@ public class WallSpawner : MonoBehaviour
         wallCreated.Clear();
         currentWallImageIndex = 0;
         currentWallImage = new WallImage(wallImages[currentWallImageIndex]);
+        rowsSpawned = 0;
         //running = false;
     }
 
@@ -190,7 +191,7 @@ public class WallSpawner : MonoBehaviour
         if(additionalRowsSpawned < slowRowsCount && running){
 
             float currentHeight = 0;
-            if(TwoHeads.current.head1 != null && TwoHeads.current.head2 != null){
+            if(TwoHeads.current.head1 != null && TwoHeads.current.head2 != null && !TwoHeads.current.LeftHeadAtStart && !TwoHeads.current.rightHeadAtStart){
                 currentHeight = TwoHeads.current.getHighestBall();   
             }
 
@@ -205,10 +206,15 @@ public class WallSpawner : MonoBehaviour
             }
         }
 
-        CallFunctionAtHeight.checkEvents(rowsSpawned);
-
-        
+        CallFunctionAtHeight.checkEvents(rowsSpawned);   
     }
+
+    public float getBlockHeight(int rowNumber){
+        return blockHeight * ((rowNumber-rowsSpawned)-halfScreenHeightBlocks) - blockHeight * ((elapsedDistance%blockHeight)/blockHeight) + blockHeight * (startBlocksHeight+2);
+    }
+
+
+
 }
 
 public static class CallFunctionAtHeight{

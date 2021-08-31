@@ -7,9 +7,9 @@ public class sandWall : WallBase, IWall
 
     Animator anim;
 
-    Head attachedHead;
+    
     public GameObject wallShards;
-    bool headAttached = false;
+    
 
     float distructionTime = 4f;
 
@@ -44,8 +44,7 @@ public class sandWall : WallBase, IWall
     public void grab(Head head){
         SoundManager.current.play(SoundManager.AudioType.sandGrab);
         anim.SetTrigger("crumble");
-        attachedHead = head;
-        headAttached = true;
+        base.grab(head);
     }
 
     public void release(){

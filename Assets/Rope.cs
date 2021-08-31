@@ -8,36 +8,47 @@ public class Rope : MonoBehaviour
     public Rigidbody2D ball1;
     public Rigidbody2D ball2;
     public GameObject[] prefabRopeSegs;
+    public GameObject[] ropeSegments{get; private set;}
     public int numLinks = 30;
 
     private float ropeLimit = 180;
 
-    TwoBalls2 twoHeads;
+    public LineRenderer lr;
 
-    Rigidbody2D head1;
-    Rigidbody2D head2;
+    
+    TwoHeads twoHeads;
 
-    float segmentSize;
+    public float segmentSize;
 
     // Start is called before the first frame update
     void Start()
     {
+        
+    }
+
+    public void initialise(){
+        twoHeads = gameObject.transform.parent.GetComponent<TwoHeads>();
+
+        ball1 = twoHeads.head1.GetComponent<Rigidbody2D>();
+        ball2 = twoHeads.head2.GetComponent<Rigidbody2D>();
+        
         Physics2D.IgnoreLayerCollision(7,7);
         Physics2D.IgnoreLayerCollision(7,8);
         Physics2D.IgnoreLayerCollision(8,8);
         GenerateRope();
 
-        twoHeads = gameObject.transform.parent.GetComponent<TwoBalls2>();
+        lr = gameObject.GetComponent<LineRenderer>();
 
-        head1 = twoHeads.leftHeadRb;
-        head2 = twoHeads.rightHeadRb;
-
-        segmentSize = prefabRopeSegs[0].GetComponent<SpriteRenderer>().bounds.size.y / prefabRopeSegs[0].transform.lossyScale.y;
-        
+        TwoHeads.current.rope = this;
     }
 
     void GenerateRope(){
+        segmentSize = prefabRopeSegs[0].GetComponent<SpriteRenderer>().bounds.size.y;
+        numLinks = (int)Mathf.Ceil(TwoHeads.current.ropeLength / segmentSize);
+
         Rigidbody2D prevBody = ball1;
+        ropeSegments = new GameObject[numLinks];
+        float ropeLength = 0;
         for (int i = 0; i < numLinks; i++)
         {
             int index = Random.Range(0,prefabRopeSegs.Length);
@@ -48,8 +59,8 @@ public class Rope : MonoBehaviour
             hj.connectedBody = prevBody;
             if(i > 0){
                 float spriteBottom = prevBody.GetComponent<SpriteRenderer>().bounds.size.y / prevBody.transform.lossyScale.y;
-                segmentSize = spriteBottom;
                 hj.connectedAnchor = new Vector2(0,spriteBottom*-1);
+                ropeLength+=spriteBottom;
             }
             // JointAngleLimits2D limits = hj.limits;
             // limits.max = ropeLimit;
@@ -57,10 +68,45 @@ public class Rope : MonoBehaviour
             // hj.limits = limits;
 
             prevBody = newSeg.GetComponent<Rigidbody2D>();
+
+            ropeSegments[i] = newSeg;
         }
-        ball2.transform.position = transform.position;
-        HingeJoint2D hjball = ball2.GetComponent<HingeJoint2D>();
+        //ball2.transform.position = transform.position;
+        HingeJoint2D hjball = ball2.gameObject.GetComponent<HingeJoint2D>();
+        if(hjball == null){
+            hjball = ball2.gameObject.AddComponent<HingeJoint2D>();
+        }
+        hjball.autoConfigureConnectedAnchor = false;
         hjball.connectedAnchor = new Vector2(0,prevBody.gameObject.GetComponent<RopeSeg>().getSpriteBottom()*-1);
         hjball.connectedBody = prevBody;
+
+        DistanceJoint2D dj = ball1.gameObject.AddComponent<DistanceJoint2D>();
+        dj.autoConfigureDistance = false;
+        dj.connectedBody = ball2;
+        dj.maxDistanceOnly = true;
+        dj.distance = segmentSize*numLinks; // this should be set programatically based on the rope length
+    
+
     }
+
+    public GameObject lastSegment(){
+        return ropeSegments[ropeSegments.Length-1];
+    }
+
+    void Update()
+    {
+        Vector3[] positions = new Vector3[numLinks+1];
+
+        for (int i = 0; i < numLinks; i++)
+        {   
+            positions[i] = ropeSegments[i].transform.position;
+        }
+
+        positions[numLinks] = ball2.position;
+
+        lr.positionCount = positions.Length;
+
+        lr.SetPositions(positions);
+    }
+    
 }

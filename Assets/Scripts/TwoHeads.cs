@@ -11,18 +11,44 @@ public class TwoHeads : MonoBehaviour
     public Head head2 {get; private set;}
 
     private float movementForceRadial = 2f;
-    private float movementForceVertical = 12f;
+    private float movementForceVertical = 6f;
 
-    private Vector2 head1Start;
-    private Vector2 head2Start;
+    private Vector2 head1Start, head2Start;
 
-    public RopeHeads rope {get; private set;}
+    //public RopeHeads rope {get; private set;}
 
     public bool canMove = true;
     public bool dead = false;
 
+    public float ropeLength = 4.7f;
+
+    public Rope rope;
+
     private void Awake() {
         current = this;
+        Rope rope = gameObject.GetComponent<Rope>();
+    }
+
+    public void moveLeftHeadTo(Vector2 position){
+        if(head2.locked){
+            head1.addForceTo(head2.position() + position * rope.segmentSize * rope.numLinks);
+            LeftHeadAtStart = false;
+        }
+    }
+
+    public void moveRightHeadTo(Vector2 position){
+         if(head1.locked){
+            head2.addForceTo(head1.position() + position * rope.segmentSize * rope.numLinks);
+            rightHeadAtStart = false;
+        }
+    }
+
+    public void releaseLeftHead(){
+        head1.stopMovingToPosition();
+    }
+
+    public void releaseRightHead(){
+        head2.stopMovingToPosition();
     }
 
     public void applyVerticalForceToLeftHead(float force){
@@ -85,8 +111,8 @@ public class TwoHeads : MonoBehaviour
 
     
 
-    bool LeftHeadAtStart = true;
-    bool rightHeadAtStart = true;
+    public bool LeftHeadAtStart = true;
+    public bool rightHeadAtStart = true;
 
     bool calledStart = false;
 
@@ -151,10 +177,7 @@ public class TwoHeads : MonoBehaviour
         canMove = true;
     }
 
-    public float height(){
-        return (head1.position().y + head2.position().y)/2;
-    }
-
+    public float height() => (head1.position().y + head2.position().y)/2;
     public float getHighestBall() => Mathf.Max(head1.position().y,head2.position().y);
     public float getCurrentBlock() => WallSpawner.current.getBlockHeightFromWorldPosition(getHighestBall());
     

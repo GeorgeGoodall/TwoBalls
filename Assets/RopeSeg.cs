@@ -23,7 +23,7 @@ public class RopeSeg : MonoBehaviour
     }
 
     public float getSpriteBottom(){ 
-        return GetComponent<SpriteRenderer>().bounds.size.y;
+        return GetComponent<SpriteRenderer>().bounds.size.y / transform.lossyScale.y;
     }
 
     // Update is called once per frame

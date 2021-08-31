@@ -273,11 +273,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4737484989660464009, guid: b23e2b2a95811a540b86d9c09d933884, type: 3}
   m_PrefabInstance: {fileID: 4737484989380156774}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &298508017 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4737484989660464023, guid: b23e2b2a95811a540b86d9c09d933884, type: 3}
-  m_PrefabInstance: {fileID: 4737484989380156774}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &298508018
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -794,54 +789,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 639402739}
   m_CullTransparentMesh: 1
---- !u!1 &668476532
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 668476533}
-  - component: {fileID: 668476534}
-  m_Layer: 0
-  m_Name: Rope
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &668476533
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 668476532}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 298508017}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &668476534
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 668476532}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba552cee550260b42b466b2951321753, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ball1: {fileID: 497905008}
-  ball2: {fileID: 1089769572}
-  prefabRopeSegs:
-  - {fileID: 4484975544683942070, guid: dcf0db17bd47b844caa23d15c9c60dcd, type: 3}
-  numLinks: 5
 --- !u!1 &694678481
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 1121114912522900211}
   - component: {fileID: 6792653720583384716}
   - component: {fileID: 5317840773258721373}
+  - component: {fileID: -2620494921544407166}
   m_Layer: 0
   m_Name: impassableWall
-  m_TagString: Grabbable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -110,7 +111,7 @@ BoxCollider2D:
     adaptiveTiling: 1
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2, y: 2}
+  m_Size: {x: 2.1, y: 2.1}
   m_EdgeRadius: 0
 --- !u!114 &6792653720583384716
 MonoBehaviour:
@@ -124,6 +125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 460100c6e0efb124dafae04618de10dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  row: 0
 --- !u!114 &5317840773258721373
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,3 +140,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShadowMaterial: {fileID: 2100000, guid: edd3d4ce5db6d834ca25e8aad39d1033, type: 2}
   shadowColor: {r: 0, g: 0, b: 0, a: 0.5882353}
+  sortingOrder: 0
+--- !u!50 &-2620494921544407166
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1121114912522900210}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0

@@ -7,15 +7,14 @@ public class musicPlayer : MonoBehaviour
 
     public static musicPlayer current;
 
-    public AudioClip[] songs;
+    public AudioClip song;
     public AudioSource audioSource;
 
     // Start is called before the first frame update
     void Start()
     {
         current = this;
-        songs = Resources.LoadAll<AudioClip>("Music");
-        audioSource.clip = songs[0];
+        audioSource.clip = song;
         audioSource.loop = true;
         audioSource.Play();
 
@@ -24,7 +23,7 @@ public class musicPlayer : MonoBehaviour
     public void playSong(int index){
         
         audioSource.Stop();
-        audioSource.clip = songs[index];
+        audioSource.clip = song;
         audioSource.Play();
       
     }

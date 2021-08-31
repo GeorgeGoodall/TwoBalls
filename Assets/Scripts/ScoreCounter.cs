@@ -39,7 +39,7 @@ public class ScoreCounter : MonoBehaviour
     }
 
     bool running = false;
-    int currentScore;
+    public int currentScore{get; private set;}
     int hightScore;
 
     // Update is called once per frame

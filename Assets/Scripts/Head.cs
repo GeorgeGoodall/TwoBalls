@@ -8,7 +8,6 @@ public class Head : MonoBehaviour
     Rigidbody2D rb;
 
     bool canGrab = false;
-    GameObject overObject;
     public bool locked {get; private set;} = true;
     bool grabbed = false;
     GameObject grabbedObject;
@@ -26,10 +25,11 @@ public class Head : MonoBehaviour
     SpriteRenderer spriteRenderer;
 
     bool dead = false;
-
-
-
     bool initialised = false;
+
+    Vector3 grabPosition;
+
+    FixedJoint2D fixedJoint;
 
     // Start is called before the first frame update
     void Start()
@@ -44,7 +44,6 @@ public class Head : MonoBehaviour
         if(collider.gameObject.CompareTag("Grabbable")){
             canGrab = true;
             wallsOver.Add(collider.gameObject);
-            overObject = collider.gameObject;
         }
     }
 
@@ -59,6 +58,24 @@ public class Head : MonoBehaviour
         }
     }
 
+    GameObject overObject(){
+
+        if(wallsOver.Count < 1){
+            return null;
+        }
+
+        GameObject toReturn = wallsOver[0];
+        foreach (GameObject wall in wallsOver)
+        {
+            if((this.transform.position - wall.transform.position).magnitude < (this.transform.position - toReturn.transform.position).magnitude){
+                toReturn = wall;
+            }
+        }
+
+        return toReturn;
+    }
+
+
     void initialise(){
         if(!initialised){
             rb = gameObject.GetComponent<Rigidbody2D>();
@@ -70,6 +87,8 @@ public class Head : MonoBehaviour
             coneParticls = gameObject.transform.Find("Cone Particles").GetComponent<ParticleSystem>();
             spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
             wallsOver = new List<GameObject>();
+            grabPosition = transform.position;
+            rb.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezePositionX;
         }
     }
 
@@ -84,11 +103,21 @@ public class Head : MonoBehaviour
 
     public void addForce(Vector2 force, ForceMode2D forceMode){
         if(!locked){
-            foreach (RopeSegment segment in attachedRopeSegments)
-            {
-                segment.queueForce(force);
-            }
+            rb.AddForce(force,forceMode);
         }
+    }
+
+    Vector2 moveToPosition;
+    bool movingToPosition = false;
+    public void addForceTo(Vector2 position){
+        if(!locked){
+            moveToPosition = position;
+            movingToPosition = true;
+        }
+    }
+
+    public void stopMovingToPosition(){
+        movingToPosition = false;
     }
 
     public bool setPositionFromRope(Vector2 pos){
@@ -98,6 +127,7 @@ public class Head : MonoBehaviour
         return !locked;
     }
 
+
     public void setCanGrab(bool _canGrab){
         canGrab = _canGrab;
     }
@@ -105,56 +135,61 @@ public class Head : MonoBehaviour
 
     public void setBite(bool bite){
         
-            if(bite && canGrab && !locked && !dead){
-                locked = true;
-                grabbed = true;
-                if(anim != null){
-                    anim.SetBool("grabbing",true);
-                }
-                if(dropShadow != null){
-                    dropShadow.setLayer(-1);
-        }else{
-            Debug.LogError("Ball Object Doesn't Have A Drop Shadow");
-        }
-                grabbedObject = overObject;
-                IWall wall = grabbedObject.GetComponent<IWall>();
-                if(wall != null){
-                    wall.grab(this);
-                }
-                
+        if(bite && canGrab && !locked && !dead){
+            locked = true;
+            grabbed = true;
+            grabPosition = transform.position;
+            if(anim != null){
+                anim.SetBool("grabbing",true);
+            }
+            if(dropShadow != null){
+                dropShadow.setLayer(-1);
+            }else{
+                Debug.LogError("Ball Object Doesn't Have A Drop Shadow");
+            }
+            grabbedObject = overObject();
+            
+            if(grabbedObject != null){
+                fixedJoint = gameObject.AddComponent<FixedJoint2D>();
+                fixedJoint.autoConfigureConnectedAnchor = false;
                 deltaGrabbedObject =  gameObject.transform.position - grabbedObject.transform.position;
+                fixedJoint.connectedAnchor = deltaGrabbedObject;
+                fixedJoint.connectedBody = grabbedObject.GetComponent<Rigidbody2D>();
+            }
 
-            }else if(!bite && locked){
-                locked = false;
-                grabbed = false;
-                if(anim != null){
-                    anim.SetBool("grabbing",false);
-                }
-                if(dropShadow != null){
-                    dropShadow.setLayer(0);
-        }else{
-            Debug.LogError("Ball Object Doesn't Have A Drop Shadow");
-        }
-                if(grabbedObject != null){
-                    IWall wall = grabbedObject.GetComponent<IWall>();
-                    if(wall != null){
-                        wall.release();
-                    }
+            IWall wall = grabbedObject.GetComponent<IWall>();
+            if(wall != null){
+                wall.grab(this);
+            }
+
+
+        }else if(!bite && locked){
+            locked = false;
+            grabbed = false;
+            rb.constraints = RigidbodyConstraints2D.None;
+            if(anim != null){
+                anim.SetBool("grabbing",false);
+            }
+            if(dropShadow != null){
+                dropShadow.setLayer(0);
+            }else{
+                Debug.LogError("Ball Object Doesn't Have A Drop Shadow");
+            }
+            Destroy(fixedJoint);
+            if(grabbedObject != null){
+                IWall wall = grabbedObject.GetComponent<IWall>();
+                
+                if(wall != null){
+                    wall.release();
                 }
             }
+
+        }
         
     } 
 
     public Vector2 position(){
-        try{
-            if(locked && grabbed){
-                return grabbedObject.transform.position + new Vector3(deltaGrabbedObject.x, deltaGrabbedObject.y, 0);
-            }else{
-                return transform.position;
-            }
-        }catch(System.Exception e){
-            return transform.position;
-        }
+        return transform.position;
     }
 
     public void death(){
@@ -188,6 +223,7 @@ public class Head : MonoBehaviour
         canGrab = false;
         spriteRenderer.enabled = true;
         dead = false;
+        rb.velocity = Vector2.zero;
         if(dropShadow != null){
             dropShadow.setActive(true);
         }else{
@@ -196,12 +232,28 @@ public class Head : MonoBehaviour
         if(anim != null){
             anim.SetTrigger("Grab");
         }
+        rb.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezePositionX;
     }
 
     void Update()
     {
+        if(movingToPosition && !locked){
+            rb.velocity *= 0.2f;
+            if(rb.velocity.magnitude < 10){
+                rb.velocity = Vector2.zero;
+            }
+            rb.AddForce((moveToPosition - rb.position) * 200);
+        }
+    }
+
+    void LateUpdate()
+    {
         if((transform.position.y < -Params.current.screenBounds.y - 5f || transform.position.x < -Params.current.screenBounds.x - 9f || transform.position.x > Params.current.screenBounds.x + 9f) && !dead){
             fall();
         }
+
+        // if((grabbed || locked) && grabbedObject != null){
+        //     rb.position = grabbedObject.transform.position + new Vector3(deltaGrabbedObject.x, deltaGrabbedObject.y, 0);
+        // }
     }
 }

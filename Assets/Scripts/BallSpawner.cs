@@ -53,14 +53,18 @@ public class BallSpawner : MonoBehaviour
             TwoBalls.transform
         );
 
-        GameObject rope = Instantiate(
-            ropePrefab, 
-            pos, 
-            Quaternion.EulerAngles(0,0,0),
-            TwoBalls.transform
-        );
+        TwoBalls.GetComponent<TwoHeads>().updateHeads(leftBall,rightBall);
 
-        LineRenderer lr = rope.GetComponent<LineRenderer>();
+        Rope rope = TwoBalls.GetComponentInChildren<Rope>();
+        rope.initialise();
+
+        
+
+        // HingeJoint2D hj = rightBall.AddComponent<HingeJoint2D>();
+        // hj.connectedBody = rope.lastSegment().GetComponent<Rigidbody2D>();
+
+
+        LineRenderer lr = rope.gameObject.GetComponent<LineRenderer>();
 
         lr.textureMode = LineTextureMode.Tile;
         lr.material = SkinSettings.current.ropeParams.material;
@@ -72,7 +76,7 @@ public class BallSpawner : MonoBehaviour
         //rope.GetComponent<LineRenderer>().SetPositions(genRopePath(10,pos,ballSeperation,1.5f));
 
         //TwoHeads.current.updateRope(rope);
-        TwoHeads.current.updateHeads(leftBall,rightBall);
+        //TwoHeads.current.updateHeads(leftBall,rightBall);
         
         
         // need to add rope
