@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7493513741061934856}
   - component: {fileID: 2431252322618172838}
   - component: {fileID: 975662649313423475}
+  - component: {fileID: 7734430866552515449}
   m_Layer: 0
   m_Name: DeathWall
   m_TagString: Grabbable
@@ -126,6 +127,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShadowMaterial: {fileID: 2100000, guid: edd3d4ce5db6d834ca25e8aad39d1033, type: 2}
   shadowColor: {r: 0, g: 0, b: 0, a: 0.5882353}
+  sortingOrder: 0
 --- !u!114 &975662649313423475
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,3 +140,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44fe7ff44e9d4db47b41e3584a7d99b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  row: 0
+--- !u!50 &7734430866552515449
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7493513741061934857}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0

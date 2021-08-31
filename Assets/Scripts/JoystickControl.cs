@@ -24,24 +24,39 @@ public class JoystickControl : MonoBehaviour
     {
         if(leftJoystick.pointerDown){
             TwoHeads.current.setLeftGrab(false);
+
+            if(leftJoystick.Direction.magnitude > 0.99f){
+                TwoHeads.current.releaseLeftHead();
+                TwoHeads.current.applyVerticalForceToLeftHead(leftJoystick.Vertical);
+                TwoHeads.current.applyHorizontalForceToLeftHead(leftJoystick.Horizontal);
+            }else{
+                TwoHeads.current.moveLeftHeadTo(leftJoystick.Direction);
+            }
+
             //TwoHeads.current.applyRadialForceToLeftHead(leftJoystick.Horizontal);
-            TwoHeads.current.applyVerticalForceToLeftHead(leftJoystick.Vertical);
-            TwoHeads.current.applyHorizontalForceToLeftHead(leftJoystick.Horizontal);
         }
         else{
             TwoHeads.current.setLeftGrab(true);
+            TwoHeads.current.releaseLeftHead();
         }
 
         if(rightJoystick.pointerDown){
             TwoHeads.current.setRightGrab(false);
+
+            if(rightJoystick.Direction.magnitude > 0.99f){
+                TwoHeads.current.releaseRightHead();
+                TwoHeads.current.applyVerticalForceToRightHead(rightJoystick.Vertical);
+                TwoHeads.current.applyHorizontalForceToRightHead(rightJoystick.Horizontal);
+            }else{
+                TwoHeads.current.moveRightHeadTo(rightJoystick.Direction);
+            }
+
             //TwoHeads.current.applyRadialForceToRightHead(rightJoystick.Horizontal);
-            TwoHeads.current.applyVerticalForceToRightHead(rightJoystick.Vertical);
-            TwoHeads.current.applyHorizontalForceToRightHead(rightJoystick.Horizontal);
         }
         else{
             TwoHeads.current.setRightGrab(true);
+            TwoHeads.current.releaseRightHead();
         }
-        // Update is called once per frame
     }
 
     public void reset(){

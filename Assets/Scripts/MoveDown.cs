@@ -13,10 +13,20 @@ public class MoveDown : MonoBehaviour{
 
     private static float maxDeltaHeight = 0f;
 
-    private static float additionalSpeedModifier = 8;
+    private static float additionalSpeedModifier = 4;
+
+    private static float additionalScoreSpeedModifier = 4000f;
+
+    private Rigidbody2D rb;
+    public int row;
+
+    void Start()
+    {
+        rb = gameObject.GetComponent<Rigidbody2D>();
+    }
 
     public static float currentSpeed(){
-        return speed + getAdditionalSpeed() * additionalSpeedModifier;
+        return speed + getAdditionalSpeed() * additionalSpeedModifier + getAdditionalSpeedFromScore();
     }
 
     public static float getAdditionalSpeed(){
@@ -24,15 +34,18 @@ public class MoveDown : MonoBehaviour{
             float currentHeight = 0;
             float speedAdditional = 0;
             if(TwoHeads.current.head1 != null && TwoHeads.current.head2 != null){
+
+                if(TwoHeads.current.LeftHeadAtStart || TwoHeads.current.rightHeadAtStart){
+                    return 0;
+                }
+
                 currentHeight = TwoHeads.current.getHighestBall();
 
                 float deltaHeight = (currentHeight - (Params.current.screenBounds.y * percentOfScreenToAddAdditional)) / (Params.current.screenBounds.y * (1f-percentOfScreenToAddAdditional));
 
-
                 if(deltaHeight > 0){
                     //deltaHeight = Mathf.Min(1,deltaHeight);
                     //speedAdditional = (-1/((0.85f*deltaHeight)-1))-1;
-
                     //speedAdditional = 4*Mathf.Pow(deltaHeight,2);
 
                     speedAdditional = deltaHeight;
@@ -43,14 +56,23 @@ public class MoveDown : MonoBehaviour{
             }
             return speedAdditional;
         }catch(System.Exception e){
-            Debug.LogError(e);
+            //Debug.LogError(e);
+            return 0;
+        }
+    }
+
+    static float getAdditionalSpeedFromScore(){
+        try{
+            float additional = ScoreCounter.current.currentScore / additionalScoreSpeedModifier;
+            return additional;
+        }catch(System.Exception e){
             return 0;
         }
     }
 
     void LateUpdate()
     {
-        transform.position += Vector3.down * currentSpeed() * Time.deltaTime;
+        rb.MovePosition(new Vector2(rb.position.x,WallSpawner.current.getBlockHeight(row)));
     }
 
 

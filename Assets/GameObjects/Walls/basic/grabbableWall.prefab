@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 485657203064223703}
   - component: {fileID: -2921081180847010904}
   - component: {fileID: 4683359571660381561}
+  - component: {fileID: 3922401752911851499}
   m_Layer: 0
   m_Name: grabbableWall
   m_TagString: Grabbable
@@ -138,3 +139,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShadowMaterial: {fileID: 2100000, guid: edd3d4ce5db6d834ca25e8aad39d1033, type: 2}
   shadowColor: {r: 0, g: 0, b: 0, a: 0.5882353}
+  sortingOrder: 0
+--- !u!50 &3922401752911851499
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 485657203064223702}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
