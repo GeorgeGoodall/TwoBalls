@@ -15,9 +15,7 @@ public class WallBase : MonoBehaviour, IWall
 
     public int row;
 
-    protected Head attachedHead;
-
-    protected bool headAttached = false;
+    protected List<Head> attachedHeads;
 
 
     // Start is called before the first frame update
@@ -27,19 +25,26 @@ public class WallBase : MonoBehaviour, IWall
         spriteRenderer = this.GetComponent<SpriteRenderer>();
 
         spriteRenderer.size = new Vector2(width*blockWidth,height*blockWidth);
+        attachedHeads = new List<Head>();
         //boxCollider.size = new Vector2(width*blockWidth,height*blockWidth);
     }
 
     public void grab(Head head){
-        attachedHead = head;
-        headAttached = true;
+        attachedHeads.Add(head);
+    }
+
+    public void release(Head head){
+        head.setBite(false);
+        attachedHeads.Remove(head);
+        // attachedHead.setCanGrab(false);
     }
 
     public void release(){
-        if(headAttached){
-            attachedHead.setBite(false);
-            attachedHead.setCanGrab(false);
+        foreach (Head head in attachedHeads.ToArray())
+        {
+            head.setBite(false);
         }
+        // attachedHead.setCanGrab(false);
     }
 
 

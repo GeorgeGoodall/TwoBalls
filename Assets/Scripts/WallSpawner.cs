@@ -117,6 +117,25 @@ public class WallSpawner : MonoBehaviour
                 if(row[i] == WallTypes.Empty){
                     continue;
                 }
+
+                if(i == 0 && row[i] == WallTypes.IMPASSABLE){
+                    GameObject BorderWall1 = createWall(walls[row[i]],new Vector3(getColumnPosition(-1),height,1f));
+                    MoveDown BorderWall1MD = BorderWall1.AddComponent<MoveDown>();
+                    BorderWall1MD.row = rowsSpawned;
+
+                    GameObject BorderWall2 = createWall(walls[row[i]],new Vector3(getColumnPosition(-2),height,1f));
+                    MoveDown BorderWall2MD = BorderWall2.AddComponent<MoveDown>();
+                    BorderWall2MD.row = rowsSpawned;
+                }else if(i == row.Length-1 && row[i] == WallTypes.IMPASSABLE){
+                    GameObject BorderWall1 = createWall(walls[row[i]],new Vector3(getColumnPosition(row.Length),height,1f));
+                    MoveDown BorderWall1MD = BorderWall1.AddComponent<MoveDown>();
+                    BorderWall1MD.row = rowsSpawned;
+
+                    GameObject BorderWall2 = createWall(walls[row[i]],new Vector3(getColumnPosition(row.Length+1),height,1f));
+                    MoveDown BorderWall2MD = BorderWall2.AddComponent<MoveDown>();
+                    BorderWall2MD.row = rowsSpawned;
+                }
+
                 GameObject currentWall = createWall(walls[row[i]],new Vector3(getColumnPosition(i),height,1f));
                 MoveDown md = currentWall.AddComponent<MoveDown>();
                 md.row = rowsSpawned;
@@ -179,7 +198,7 @@ public class WallSpawner : MonoBehaviour
 
     [Header("Initial Speed Settings")]
     public int slowRowsCount;
-    public float endSpeed = 1.5f;
+    public float endSpeed = 0.5f;
     private float startElapsedDistance = 0f;
 
     // Update is called once per frame
@@ -228,11 +247,19 @@ public static class CallFunctionAtHeight{
         // if an event is added that happens before an existing event, delete the existing event
         lock (events)
         {
+
+            List<int> toRemove = new List<int>();
+
             foreach (var item in events)
             {
                 if(item.Key >= rowsSpawned - WallSpawner.current.ignoreCameraChangeWithinBlockCount){
-                    events.Remove(item.Key);
+                    toRemove.Add(item.Key);
                 }
+            }
+
+            foreach (int index in toRemove)
+            {
+                events.Remove(index);
             }
 
             events.Add(rowsSpawned, m_methodToCall);
@@ -244,6 +271,8 @@ public static class CallFunctionAtHeight{
 
         lock(events){
             int halfScreenHeightInBlocks = (int)Mathf.Ceil(Params.current.screenBounds.y/WallSpawner.current.blockHeight);
+
+            List<int> toCall = new List<int>();
 
             foreach (var item in events)
             {
@@ -258,11 +287,17 @@ public static class CallFunctionAtHeight{
                 // }
 
                 if(item.Key <= TwoHeads.current.getCurrentBlock()){
-                    item.Value();
-                    events.Remove(item.Key);
+                    toCall.Add(item.Key);
                 }
 
 
+            }
+
+            foreach (int index in toCall)
+            {
+                var item = events[index];
+                item();
+                events.Remove(index);
             }
         }
     }

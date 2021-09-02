@@ -145,7 +145,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb723c5b7d7d512478e6e09860a47775, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  row: 0
   wallShards: {fileID: 5626935749705510245, guid: caeec8f40511bef45926897f2020bde7, type: 3}
+  crumbleVolume: 0.2
+  grabVolume: 0.4
+  distroyVolume: 0.4
 --- !u!114 &-3960227066944983737
 MonoBehaviour:
   m_ObjectHideFlags: 0

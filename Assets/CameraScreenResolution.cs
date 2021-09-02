@@ -23,6 +23,8 @@ public class CameraScreenResolution : MonoBehaviour
             newWidth = 5;
         }
 
+        newWidth += 1;
+
         width = newWidth;
         elapsedTime = 0f;
         Params.current.updateScreenBounds(new Vector3(width,width / Camera.main.aspect,0));

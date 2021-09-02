@@ -6,4 +6,5 @@ interface IWall
 {
     void grab(Head head);
     void release();
+    void release(Head head);
 }

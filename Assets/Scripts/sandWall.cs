@@ -10,8 +10,13 @@ public class sandWall : WallBase, IWall
     
     public GameObject wallShards;
     
+    public float crumbleVolume;
+    public float grabVolume;
+    public float distroyVolume;
 
     float distructionTime = 4f;
+
+    int crumbleCount = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -29,25 +34,33 @@ public class sandWall : WallBase, IWall
     }
 
     public void crumbleDone(){
-        if(headAttached){
-            attachedHead.setBite(false);
-            attachedHead.setCanGrab(false);
-        }
+        release();
         Instantiate(wallShards,gameObject.transform.position,gameObject.transform.rotation);
+        SoundManager.current.play(SoundManager.AudioType.sandBreak);
         Destroy(gameObject);
     }
 
     public void crumbleStep(){
-        SoundManager.current.play(SoundManager.AudioType.sandCrumble);
+
+        // 0.85
+        // 0.7
+        // 0.55
+        // 0.5
+
+        float pitch = 1f;
+        if(crumbleCount <= 2){
+            pitch = 1f - (0.15f*(crumbleCount+1));
+        }else{
+            pitch = 0.55f - 0.05f * (crumbleCount - 2);
+        }
+
+        SoundManager.current.play(SoundManager.AudioType.sandCrumble, pitch);
+        crumbleCount++;
     }
 
     public void grab(Head head){
         SoundManager.current.play(SoundManager.AudioType.sandGrab);
         anim.SetTrigger("crumble");
         base.grab(head);
-    }
-
-    public void release(){
-        headAttached = false;
     }
 }

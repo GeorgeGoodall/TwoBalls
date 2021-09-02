@@ -180,7 +180,7 @@ public class Head : MonoBehaviour
                 IWall wall = grabbedObject.GetComponent<IWall>();
                 
                 if(wall != null){
-                    wall.release();
+                    wall.release(this);
                 }
             }
 
