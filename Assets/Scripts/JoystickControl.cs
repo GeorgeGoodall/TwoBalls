@@ -13,7 +13,7 @@ public class JoystickControl : MonoBehaviour
     private Vector2 leftLastPosition = Vector2.zero;
     private Vector2 rightLastPosition = Vector2.zero;
 
-    private float addForceThreshold = 0.5f;
+
 
     // Start is called before the first frame update
     void Start()
@@ -27,44 +27,14 @@ public class JoystickControl : MonoBehaviour
       void Update()
     {
         if(leftJoystick.pointerDown){
-            Debug.Log("LeftDown");
-            TwoHeads.current.setLeftGrab(false);
-
-            //Vector2 deltaJoyLeft = leftJoystick.Direction - leftLastPosition;
-            Vector2 deltaJoyLeft = leftJoystick.Direction;
-
-            if(deltaJoyLeft.magnitude > addForceThreshold){
-                TwoHeads.current.releaseLeftHead();
-                TwoHeads.current.applyVerticalForceToLeftHead(leftJoystick.Vertical);
-                TwoHeads.current.applyHorizontalForceToLeftHead(leftJoystick.Horizontal);
-            }else{
-                TwoHeads.current.moveLeftHeadTo(leftJoystick.Direction / addForceThreshold);
-            }
-
-
-            //TwoHeads.current.applyRadialForceToLeftHead(leftJoystick.Horizontal);
-        }
-        else{
+            TwoHeads.current.applyInputLeft(leftJoystick.Direction);
+        }else{
             TwoHeads.current.setLeftGrab(true);
             TwoHeads.current.releaseLeftHead();
         }
 
         if(rightJoystick.pointerDown){
-            Debug.Log("RightDown");
-            //Vector2 deltaJoyRight = rightJoystick.Direction - rightLastPosition;
-            Vector2 deltaJoyRight = rightJoystick.Direction;
-            TwoHeads.current.setRightGrab(false);
-
-            if(deltaJoyRight.magnitude > addForceThreshold){
-                TwoHeads.current.releaseRightHead();
-                TwoHeads.current.applyVerticalForceToRightHead(rightJoystick.Vertical);
-                TwoHeads.current.applyHorizontalForceToRightHead(rightJoystick.Horizontal);
-            }else{
-                TwoHeads.current.moveRightHeadTo(rightJoystick.Direction / addForceThreshold);
-            }
-
-
-            //TwoHeads.current.applyRadialForceToRightHead(rightJoystick.Horizontal);
+            TwoHeads.current.applyInputRight(rightJoystick.Direction);
         }
         else{
             TwoHeads.current.setRightGrab(true);

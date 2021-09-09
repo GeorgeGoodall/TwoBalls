@@ -27,12 +27,6 @@ public class sandWall : WallBase, IWall
         base.Start();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void crumbleDone(){
         release();
         Instantiate(wallShards,gameObject.transform.position,gameObject.transform.rotation);

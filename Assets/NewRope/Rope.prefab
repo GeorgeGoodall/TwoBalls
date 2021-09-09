@@ -48,7 +48,7 @@ MonoBehaviour:
   ball2: {fileID: 0}
   prefabRopeSegs:
   - {fileID: 4484975544683942070, guid: dcf0db17bd47b844caa23d15c9c60dcd, type: 3}
-  numLinks: 5
+  numLinks: 6
   lr: {fileID: 0}
   segmentSize: 0
 --- !u!120 &7901739925087262103

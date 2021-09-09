@@ -5419,9 +5419,12 @@ MonoBehaviour:
   blockHeight: 0
   wallImages:
   - {fileID: 21300000, guid: ecc4937695e3b2345880033133f9c65c, type: 3}
-  - {fileID: 21300000, guid: 1e52b0810f329d443ab975007ccbfeae, type: 3}
-  - {fileID: 21300000, guid: 71a68bc953e16784982014206ef8b5e5, type: 3}
   - {fileID: 21300000, guid: c0e055e21d7059f47aa43bcb7509bb14, type: 3}
+  - {fileID: 21300000, guid: 71a68bc953e16784982014206ef8b5e5, type: 3}
+  - {fileID: 21300000, guid: f36c954cbd346b84e8b09d0e6524f6c2, type: 3}
+  - {fileID: 21300000, guid: e3c6aac85ac89504bb7db4289d937495, type: 3}
+  - {fileID: 21300000, guid: a8f1dfd5f564b0c40a0d7fd24d6ba66d, type: 3}
+  - {fileID: 21300000, guid: 1e52b0810f329d443ab975007ccbfeae, type: 3}
   blocksToZoomInAdvance: 3
   ignoreCameraChangeWithinBlockCount: 5
   halfScreenHeightBlocks: 0
@@ -9816,7 +9819,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TwoBallsPrefab: {fileID: 8564880539940005672, guid: e79073487a70ae84289e77eea8c73651, type: 3}
-  ropePrefab: {fileID: 7994696317021683240, guid: 2f3fa96f0e95cf9438b1aaf760e00860, type: 3}
   startPos: {x: 0, y: -2, z: 1}
 --- !u!4 &2086531090
 Transform:

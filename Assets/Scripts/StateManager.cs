@@ -65,8 +65,13 @@ public class StateManager : MonoBehaviour
         }
     }
 
+    bool deathCalled = false;
+
     public void showDeathAfter1Second(){
-        Invoke("showGameoverScreen",1);
+        if(!deathCalled){
+            deathCalled = true;
+            Invoke("showGameoverScreen",2);
+        }
     }
 
     public void startGame(){
@@ -75,7 +80,12 @@ public class StateManager : MonoBehaviour
         setupGame();
     }
 
+    void resetDeath(){
+        deathCalled = false;
+    }
+
     public void TryAgain(){
+        deathCalled = false;
         setupGame();
         //TwoHeads.current.reset();
     }

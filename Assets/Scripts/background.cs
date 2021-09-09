@@ -23,10 +23,10 @@ public class background : MonoBehaviour
         bg1.transform.position += Vector3.down * moveDownSpeed * Time.deltaTime;
         bg2.transform.position += Vector3.down * moveDownSpeed * Time.deltaTime;
 
-        if(bg1.transform.position.y < -70){
+        if(bg1.transform.position.y < -90){
             bg1.transform.position += new Vector3(0,97*2,0);
         }
-        if(bg2.transform.position.y < -70){
+        if(bg2.transform.position.y < -90){
             bg2.transform.position += new Vector3(0,97*2,0);
         }
     }

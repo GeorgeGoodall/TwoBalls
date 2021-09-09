@@ -9,13 +9,13 @@ public class MoveDown : MonoBehaviour{
 
     private float elapsedTime;
 
-    private static float percentOfScreenToAddAdditional = 0f; // above 70% of the screen, the speed the blocks fall starts to increace
+    private static float percentOfScreenToAddAdditional = 0.5f;
 
     private static float maxDeltaHeight = 0f;
 
-    private static float additionalSpeedModifier = 4;
+    private static float additionalSpeedModifier = 8;
 
-    private static float additionalScoreSpeedModifier = 4000f;
+    private static float additionalScoreSpeedModifier = 5000f;
 
     private Rigidbody2D rb;
     public int row;

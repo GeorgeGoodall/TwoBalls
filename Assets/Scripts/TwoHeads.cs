@@ -18,7 +18,6 @@ public class TwoHeads : MonoBehaviour
     //public RopeHeads rope {get; private set;}
 
     public bool canMove = true;
-    public bool dead = false;
 
     public float ropeLength = 4.7f;
 
@@ -33,13 +32,51 @@ public class TwoHeads : MonoBehaviour
         if(head2.locked){
             head1.addForceTo(head2.position() + position * rope.segmentSize * rope.numLinks);
             LeftHeadAtStart = false;
+        }else{
+            head1.stopMovingToPosition();
         }
     }
 
     public void moveRightHeadTo(Vector2 position){
-         if(head1.locked){
+        if(head1.locked){
             head2.addForceTo(head1.position() + position * rope.segmentSize * rope.numLinks);
             rightHeadAtStart = false;
+        }else{
+            head2.stopMovingToPosition();
+        }
+    }
+
+    private float addForceThreshold = 0.5f;
+    public void applyInputLeft(Vector2 deltaJoystick){
+
+        TwoHeads.current.setLeftGrab(false);
+        TwoHeads.current.releaseLeftHead();
+
+        if(deltaJoystick.magnitude > addForceThreshold){
+            if(head2.locked){
+                head1.addForce(Vector2.up * deltaJoystick.y * movementForceVertical, ForceMode2D.Impulse);
+                head1.addForce(Vector2.right * deltaJoystick.x * movementForceVertical, ForceMode2D.Impulse);
+                LeftHeadAtStart = false;
+            }
+        }else{
+            TwoHeads.current.moveLeftHeadTo(deltaJoystick / addForceThreshold);
+        }
+    }
+
+
+    public void applyInputRight(Vector2 deltaJoystick){
+
+        TwoHeads.current.setRightGrab(false);
+        TwoHeads.current.releaseRightHead();
+
+        if(deltaJoystick.magnitude > addForceThreshold){
+            if(head1.locked){
+                head2.addForce(Vector2.up * deltaJoystick.y * movementForceVertical, ForceMode2D.Impulse);
+                head2.addForce(Vector2.right * deltaJoystick.x * movementForceVertical, ForceMode2D.Impulse);
+                LeftHeadAtStart = false;
+            }
+        }else{
+            TwoHeads.current.moveRightHeadTo(deltaJoystick / addForceThreshold);
         }
     }
 
@@ -51,34 +88,7 @@ public class TwoHeads : MonoBehaviour
         head2.stopMovingToPosition();
     }
 
-    public void applyVerticalForceToLeftHead(float force){
-        if(head2.locked){
-            head1.addForce(Vector2.up * force * movementForceVertical, ForceMode2D.Impulse);
-            LeftHeadAtStart = false;
-        }
-    }
-
-    public void applyVerticalForceToRightHead(float force){
-        if(head1.locked){
-            head2.addForce(Vector2.up * force * movementForceVertical, ForceMode2D.Impulse);
-            rightHeadAtStart = false;
-        }
-    }
-
-    public void applyHorizontalForceToLeftHead(float force){
-        if(head2.locked){
-            head1.addForce(Vector2.right * force * movementForceVertical, ForceMode2D.Impulse);
-            LeftHeadAtStart = false;
-        }
-    }
-
-    public void applyHorizontalForceToRightHead(float force){
-        if(head1.locked){
-            head2.addForce(Vector2.right * force * movementForceVertical, ForceMode2D.Impulse);
-            rightHeadAtStart = false;
-        }
-    }
-
+   
     public void applyRadialForceToLeftHead(float force){
         LeftHeadAtStart = false;
         if(force > 0){
@@ -158,11 +168,6 @@ public class TwoHeads : MonoBehaviour
         if(canMove){
             movement();
         }
-
-        if((head1.transform.position.y < -Params.current.screenBounds.y-5 || head2.transform.position.y < -Params.current.screenBounds.y-5) && !dead){
-            GameEvents.current.death();
-            dead = true;
-        }
     }
 
     public void reset(){
@@ -173,7 +178,6 @@ public class TwoHeads : MonoBehaviour
         LeftHeadAtStart = true;
         rightHeadAtStart = true;
         calledStart = false;
-        dead = false;
         canMove = true;
     }
 

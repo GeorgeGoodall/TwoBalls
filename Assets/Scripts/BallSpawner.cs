@@ -9,8 +9,6 @@ public class BallSpawner : MonoBehaviour
 
     public GameObject TwoBallsPrefab;
 
-    public GameObject ropePrefab;
-
     private GameObject TwoBalls;
 
 

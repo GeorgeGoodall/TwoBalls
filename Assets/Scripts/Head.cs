@@ -202,19 +202,12 @@ public class Head : MonoBehaviour
         }
         dead = true;
         SoundManager.current.play(SoundManager.AudioType.deathGrab);
+        GameEvents.current.death();
     }
 
     public void fall(){
         coneParticls.Emit(250);
-        sphearParticls.Emit(250);
-        spriteRenderer.enabled = false;
-        if(dropShadow != null){
-            dropShadow.setActive(false);
-        }else{
-            Debug.LogError("Ball Object Doesn't Have A Drop Shadow");
-        }
-        SoundManager.current.play(SoundManager.AudioType.deathGrab);
-        dead = true;
+        death();
     }
 
     public void reset(){

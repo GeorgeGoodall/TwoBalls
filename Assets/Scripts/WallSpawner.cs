@@ -119,21 +119,18 @@ public class WallSpawner : MonoBehaviour
                 }
 
                 if(i == 0 && row[i] == WallTypes.IMPASSABLE){
-                    GameObject BorderWall1 = createWall(walls[row[i]],new Vector3(getColumnPosition(-1),height,1f));
-                    MoveDown BorderWall1MD = BorderWall1.AddComponent<MoveDown>();
-                    BorderWall1MD.row = rowsSpawned;
-
-                    GameObject BorderWall2 = createWall(walls[row[i]],new Vector3(getColumnPosition(-2),height,1f));
-                    MoveDown BorderWall2MD = BorderWall2.AddComponent<MoveDown>();
-                    BorderWall2MD.row = rowsSpawned;
+                    for(int j = 0; j < 4; j++){
+                        GameObject BorderWall1 = createWall(walls[row[i]],new Vector3(getColumnPosition(-1-j),height,1f));
+                        MoveDown BorderWall1MD = BorderWall1.AddComponent<MoveDown>();
+                        BorderWall1MD.row = rowsSpawned;
+                    }
                 }else if(i == row.Length-1 && row[i] == WallTypes.IMPASSABLE){
-                    GameObject BorderWall1 = createWall(walls[row[i]],new Vector3(getColumnPosition(row.Length),height,1f));
-                    MoveDown BorderWall1MD = BorderWall1.AddComponent<MoveDown>();
-                    BorderWall1MD.row = rowsSpawned;
 
-                    GameObject BorderWall2 = createWall(walls[row[i]],new Vector3(getColumnPosition(row.Length+1),height,1f));
-                    MoveDown BorderWall2MD = BorderWall2.AddComponent<MoveDown>();
-                    BorderWall2MD.row = rowsSpawned;
+                     for(int j = 0; j < 4; j++){
+                        GameObject BorderWall1 = createWall(walls[row[i]],new Vector3(getColumnPosition(row.Length+j),height,1f));
+                        MoveDown BorderWall1MD = BorderWall1.AddComponent<MoveDown>();
+                        BorderWall1MD.row = rowsSpawned;
+                    }
                 }
 
                 GameObject currentWall = createWall(walls[row[i]],new Vector3(getColumnPosition(i),height,1f));
@@ -198,7 +195,7 @@ public class WallSpawner : MonoBehaviour
 
     [Header("Initial Speed Settings")]
     public int slowRowsCount;
-    public float endSpeed = 0.5f;
+    public float endSpeed = 0.1f;
     private float startElapsedDistance = 0f;
 
     // Update is called once per frame

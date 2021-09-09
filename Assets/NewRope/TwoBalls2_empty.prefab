@@ -45,8 +45,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canMove: 1
-  dead: 0
-  ropeLength: 4.75
+  ropeLength: 6
+  rope: {fileID: 0}
+  LeftHeadAtStart: 1
+  rightHeadAtStart: 1
 --- !u!1001 &7205187563589943179
 PrefabInstance:
   m_ObjectHideFlags: 0
