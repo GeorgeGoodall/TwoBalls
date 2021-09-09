@@ -43,11 +43,42 @@ public class MoveDown : MonoBehaviour{
 
                 float deltaHeight = (currentHeight - (Params.current.screenBounds.y * percentOfScreenToAddAdditional)) / (Params.current.screenBounds.y * (1f-percentOfScreenToAddAdditional));
 
-                if(deltaHeight > 0){
+                if(deltaHeight > 1){
+                    speedAdditional = 1;
+                }else if(deltaHeight > 0){
                     //deltaHeight = Mathf.Min(1,deltaHeight);
                     //speedAdditional = (-1/((0.85f*deltaHeight)-1))-1;
                     //speedAdditional = 4*Mathf.Pow(deltaHeight,2);
 
+                    speedAdditional = deltaHeight;
+                }else{
+                    speedAdditional = 0;
+                }
+                
+            }
+            return speedAdditional;
+        }catch(System.Exception e){
+            //Debug.LogError(e);
+            return 0;
+        }
+    }
+
+    public static float getAdditionalSpeedForHeads(){
+        try{
+            float currentHeight = 0;
+            float speedAdditional = 0;
+            if(TwoHeads.current.head1 != null && TwoHeads.current.head2 != null){
+
+                if(TwoHeads.current.LeftHeadAtStart || TwoHeads.current.rightHeadAtStart){
+                    return 0;
+                }
+
+                currentHeight = TwoHeads.current.getLowestBall();
+
+                // get height above the screen
+                float deltaHeight = currentHeight - Params.current.screenBounds.y;
+
+                if(deltaHeight > 0){
                     speedAdditional = deltaHeight;
                 }else{
                     speedAdditional = 0;

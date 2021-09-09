@@ -12,6 +12,8 @@ public class TwoHeads : MonoBehaviour
 
     private float movementForceRadial = 2f;
     private float movementForceVertical = 6f;
+    private float notGrabbedMultipleHorazontal = 0.05f;
+    private float notGrabbedMultiplevertical = 0f;
 
     private Vector2 head1Start, head2Start;
 
@@ -52,14 +54,18 @@ public class TwoHeads : MonoBehaviour
         TwoHeads.current.setLeftGrab(false);
         TwoHeads.current.releaseLeftHead();
 
-        if(deltaJoystick.magnitude > addForceThreshold){
-            if(head2.locked){
+        if(head2.locked){
+            if(deltaJoystick.magnitude > addForceThreshold){
                 head1.addForce(Vector2.up * deltaJoystick.y * movementForceVertical, ForceMode2D.Impulse);
                 head1.addForce(Vector2.right * deltaJoystick.x * movementForceVertical, ForceMode2D.Impulse);
                 LeftHeadAtStart = false;
+            }else{
+                TwoHeads.current.moveLeftHeadTo(deltaJoystick / addForceThreshold);
             }
         }else{
-            TwoHeads.current.moveLeftHeadTo(deltaJoystick / addForceThreshold);
+            // head1.addForce(Vector2.up * deltaJoystick.y * movementForceVertical * notGrabbedMultiplevertical, ForceMode2D.Impulse);
+            head1.addForce(Vector2.right * deltaJoystick.x * movementForceVertical * notGrabbedMultipleHorazontal, ForceMode2D.Impulse);
+            LeftHeadAtStart = false;
         }
     }
 
@@ -69,14 +75,18 @@ public class TwoHeads : MonoBehaviour
         TwoHeads.current.setRightGrab(false);
         TwoHeads.current.releaseRightHead();
 
-        if(deltaJoystick.magnitude > addForceThreshold){
-            if(head1.locked){
+        if(head1.locked){
+            if(deltaJoystick.magnitude > addForceThreshold){
                 head2.addForce(Vector2.up * deltaJoystick.y * movementForceVertical, ForceMode2D.Impulse);
                 head2.addForce(Vector2.right * deltaJoystick.x * movementForceVertical, ForceMode2D.Impulse);
-                LeftHeadAtStart = false;
+                rightHeadAtStart = false;
+            }else{
+                TwoHeads.current.moveRightHeadTo(deltaJoystick / addForceThreshold);
             }
         }else{
-            TwoHeads.current.moveRightHeadTo(deltaJoystick / addForceThreshold);
+            // head2.addForce(Vector2.up * deltaJoystick.y * movementForceVertical * notGrabbedMultiplevertical, ForceMode2D.Impulse);
+            head2.addForce(Vector2.right * deltaJoystick.x * movementForceVertical * notGrabbedMultipleHorazontal, ForceMode2D.Impulse);
+            rightHeadAtStart = false;
         }
     }
 
@@ -162,6 +172,8 @@ public class TwoHeads : MonoBehaviour
         head2.setBite(false);
     }
 
+    private float aboveScreenApplyDownForceOf = 64f;
+
     // Update is called once per frame
     void Update()
     {
@@ -183,6 +195,7 @@ public class TwoHeads : MonoBehaviour
 
     public float height() => (head1.position().y + head2.position().y)/2;
     public float getHighestBall() => Mathf.Max(head1.position().y,head2.position().y);
+    public float getLowestBall() => Mathf.Min(head1.position().y,head2.position().y);
     public float getCurrentBlock() => WallSpawner.current.getBlockHeightFromWorldPosition(getHighestBall());
     
 

@@ -64,7 +64,7 @@ public class BallSpawner : MonoBehaviour
 
         LineRenderer lr = rope.gameObject.GetComponent<LineRenderer>();
 
-        lr.textureMode = LineTextureMode.Tile;
+        lr.textureMode = SkinSettings.current.ropeParams.textureMode;
         lr.material = SkinSettings.current.ropeParams.material;
         lr.startColor = SkinSettings.current.ropeParams.colour; 
         lr.endColor = SkinSettings.current.ropeParams.colour;

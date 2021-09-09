@@ -37,19 +37,12 @@ public class SkinsScreen : MonoBehaviour
         StateManager.current.openMainMenu();
     }
 
-    public void changePannel(){
-
-        
-
-        ballPannelOpen = !ballPannelOpen;
-        if(ballPannelOpen){
-            ropePannel.SetActive(true);
-            ballPannel.SetActive(false);
-            pannelButtonText.text = "Change Balls";
-        }else{
-            ropePannel.SetActive(false);
-            ballPannel.SetActive(true);
-            pannelButtonText.text = "Change Rope";
-        }
+    public void openRopePannel(){
+        ropePannel.SetActive(true);
+        ballPannel.SetActive(false);
+    }
+    public void openBallPannel(){
+        ropePannel.SetActive(false);
+        ballPannel.SetActive(true);   
     }
 }
