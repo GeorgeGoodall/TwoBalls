@@ -31,6 +31,8 @@ public class WallSpawner : MonoBehaviour
     [Space]
     public Sprite[] wallImages;
     [Space]
+    public Sprite[] randomLevels;
+    [Space]
     [Header("Camera Zoom Settings")]
     public int blocksToZoomInAdvance = 3;
     public int ignoreCameraChangeWithinBlockCount = 5;
@@ -85,8 +87,12 @@ public class WallSpawner : MonoBehaviour
     {
         if(running){
             elapsedDistance += Time.deltaTime * MoveDown.currentSpeed();
-            if(elapsedDistance >= blockHeight){    
-                spawnFromWallImage();
+            if(elapsedDistance >= blockHeight){
+                if(currentWallImageIndex < wallImages.Length - 1){
+                    spawnFromWallImage();
+                }else{
+                    spawnFromRandomWalls();
+                }
             }
         }
     }
@@ -105,41 +111,65 @@ public class WallSpawner : MonoBehaviour
             currentWallImageIndex++;
 
             currentWallImage = new WallImage(wallImages[currentWallImageIndex]);
+
             CallFunctionAtHeight.AfterDistanceDelegate e = currentWallImage.updateViewWidth;
             int heightForEvent = rowsSpawned;
 
             CallFunctionAtHeight.addEvent(heightForEvent,e);
             spawnFromWallImageAt(height);
         }else{
-            WallTypes[] row = currentWallImage.getCurrentRow();
-
-            for(int i = 0; i < row.Length; i++){
-                if(row[i] == WallTypes.Empty){
-                    continue;
-                }
-
-                if(i == 0 && row[i] == WallTypes.IMPASSABLE){
-                    for(int j = 0; j < 4; j++){
-                        GameObject BorderWall1 = createWall(walls[row[i]],new Vector3(getColumnPosition(-1-j),height,1f));
-                        MoveDown BorderWall1MD = BorderWall1.AddComponent<MoveDown>();
-                        BorderWall1MD.row = rowsSpawned;
-                    }
-                }else if(i == row.Length-1 && row[i] == WallTypes.IMPASSABLE){
-
-                     for(int j = 0; j < 4; j++){
-                        GameObject BorderWall1 = createWall(walls[row[i]],new Vector3(getColumnPosition(row.Length+j),height,1f));
-                        MoveDown BorderWall1MD = BorderWall1.AddComponent<MoveDown>();
-                        BorderWall1MD.row = rowsSpawned;
-                    }
-                }
-
-                GameObject currentWall = createWall(walls[row[i]],new Vector3(getColumnPosition(i),height,1f));
-                MoveDown md = currentWall.AddComponent<MoveDown>();
-                md.row = rowsSpawned;
-            }
-            elapsedDistance = 0f;
-            rowsSpawned++;
+            spawnFromCurrentWall(height);
         }
+    }
+
+    public void spawnFromRandomWalls(){
+        spawnFromRandomWallsAt(spawnHeight);
+    }
+
+    public void spawnFromRandomWallsAt(float height){
+        if(currentWallImage.hasFinished()){
+            int index = Random.Range(0,randomLevels.Length);
+
+            currentWallImage = new WallImage(randomLevels[index]);
+            CallFunctionAtHeight.AfterDistanceDelegate e = currentWallImage.updateViewWidth;
+            int heightForEvent = rowsSpawned;
+
+            CallFunctionAtHeight.addEvent(heightForEvent,e);
+            spawnFromRandomWallsAt(height);
+        }else{
+            spawnFromCurrentWall(height);
+        }
+    }
+
+    public void spawnFromCurrentWall(float height){
+        WallTypes[] row = currentWallImage.getCurrentRow();
+
+        for(int i = 0; i < row.Length; i++){
+            if(row[i] == WallTypes.Empty){
+                continue;
+            }
+
+            if(i == 0 && row[i] == WallTypes.IMPASSABLE){
+                for(int j = 0; j < 4; j++){
+                    GameObject BorderWall1 = createWall(walls[row[i]],new Vector3(getColumnPosition(-1-j),height,1f));
+                    MoveDown BorderWall1MD = BorderWall1.AddComponent<MoveDown>();
+                    BorderWall1MD.row = rowsSpawned;
+                }
+            }else if(i == row.Length-1 && row[i] == WallTypes.IMPASSABLE){
+
+                    for(int j = 0; j < 4; j++){
+                    GameObject BorderWall1 = createWall(walls[row[i]],new Vector3(getColumnPosition(row.Length+j),height,1f));
+                    MoveDown BorderWall1MD = BorderWall1.AddComponent<MoveDown>();
+                    BorderWall1MD.row = rowsSpawned;
+                }
+            }
+
+            GameObject currentWall = createWall(walls[row[i]],new Vector3(getColumnPosition(i),height,1f));
+            MoveDown md = currentWall.AddComponent<MoveDown>();
+            md.row = rowsSpawned;
+        }
+        elapsedDistance = 0f;
+        rowsSpawned++;
     }
 
 
